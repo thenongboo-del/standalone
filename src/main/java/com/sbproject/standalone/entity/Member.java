@@ -39,6 +39,7 @@ import lombok.Data;
 - USER(일반 사용자), ADMIN(관리자), DEALER
 - SecurityConfig 파일에 설정
 */
+
 @Entity
 @Data
 public class Member {

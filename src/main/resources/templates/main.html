@@ -2,6 +2,7 @@
 <head>
 <title></title>
 	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<script th:src="@{/js/main.js}"></script>
 </head>
 <body>
 	<th:block th:replace="~{/module/top.html}"></th:block>
@@ -12,6 +13,18 @@
 	<br>
 	<div class="testArea">
 		joke
+	</div>
+	
+	
+	<!-- 가입메세지 비어있는지 확인후 띄워준다 -->
+	<!-- 성공 모달 창 (가입 완료 시 중앙에 팝업) -->
+	<div th:if="${flashMessage}" id="successModal" class="modal-overlay">
+	    <div class="modal-content">
+	        <div class="modal-icon">✓</div>
+	        <h2>회원가입 완료!</h2>
+	        <p th:text="${flashMessage}"></p>
+	        <button type="button" class="modal-close-btn">확인</button>
+	    </div>
 	</div>
 </body>
 </html>

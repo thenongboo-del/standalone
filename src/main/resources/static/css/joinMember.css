@@ -31,13 +31,26 @@ body {
     margin-bottom: 30px;
 }
 
+.idBox {
+	display: flex;	
+}
+
+
+
 .signup-form label {
     color: #ccc;
     margin-bottom: 8px;
     font-size: 14px;
 }
 
+
+#memberId {
+	width: 260px;
+}
+
+
 .signup-form input {
+	
     padding: 12px;
     margin-bottom: 20px;
     border: none;
@@ -62,6 +75,57 @@ body {
     transition: 0.3s;
 }
 
+
+.checkId {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	
+	margin-left: 10px;
+	width: 100px;
+	height: 40px;
+}
+
+.div-nameAndBirthDay{
+	display: flex;
+}
+
+#name, #birthDay {
+	width:150px;
+}
+
+#birthDay, .label-birthDay {
+	margin-left: 50px;
+}
+
+
+
 .signup-form button:hover {
     background-color: #ff7733;
 }
+
+
+/**/
+
+.div-labelAndAlert {
+	
+}
+
+.validation-alert{
+	display: flex;
+	align-items: center;
+}
+
+.validation-alert p {
+	font-size: 0.8em;
+	color:rgb(255, 128, 128);
+	margin-left: 10px;	
+}
+
+.id-info {
+	font-size: 0.8em;
+		color:cadetblue;
+		margin-top: -10px;
+		margin-bottom: 20px;
+}
+

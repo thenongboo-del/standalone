@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sbproject.standalone.entity.Member;
 import com.sbproject.standalone.service.MemberService;
@@ -38,18 +39,19 @@ public class MemberController {
 		return "member/joinMember";
 	}
 	
+	
 	// 회원가입 처리
-	@PostMapping("/add")
-	public String addMemberPro(@Valid @ModelAttribute Member member, BindingResult bindingResult, Model model) {
+	@PostMapping("/signup")
+	public String addMemberPro(@Valid @ModelAttribute Member member, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 		// 유효성 검사
 		if(bindingResult.hasErrors()) {
-			return "member/addMember";
+			return "member/joinMember";
 		}
 		
 		// 입력한 비밀번호 2개가 일치하는지를 검사
 		if(!member.getPassword().equals(member.getPassword2())) {
 			bindingResult.rejectValue("password2", "passwordIncorrect", "입력한 비밀번호가 일치하지 않습니다.");
-			return "member/addMember";
+			return "member/joinMember";
 		}
 		
 		// 중복 ID 체크
@@ -62,14 +64,18 @@ public class MemberController {
 		} catch(DataIntegrityViolationException e) {
 			// rejectValue(필드명, 오류코드, 메시지)
 			bindingResult.rejectValue("memberId", "duplecatedMemberId", "이미 존재하는 회원 ID입니다.");
-			return "member/addMember";
+			return "member/joinMember";
 		} catch(Exception e) {
 			bindingResult.rejectValue("memberId", "duplecatedMemberId", e.getMessage());
-			return "member/addMember";
+			return "member/joinMember";
 		}
-				
+		
+		// 가입 메세지
+		redirectAttributes.addFlashAttribute("flashMessage", 
+			    "회원가입이 정상적으로 완료되었습니다. 환영합니다, " + member.getName() + "님!");
+		
 		log.info(member.toString());
-		return "redirect:/cars";
+		return "redirect:/";
 	}
 	
 	// 회원정보 조회 (1건) -> 수정과 삭제 화면
