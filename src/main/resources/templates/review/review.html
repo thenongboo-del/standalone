@@ -1,0 +1,202 @@
+<div class="row align-items-md-stretch mt-5">
+	<div class="row col-md-12 mt-2">
+		<div class="d-flex align-items-center col-md-6 text-start">
+			<img th:src="@{/icons/review.png}" width="32" class="ms-4">
+			<span class="fw-bold fs-4 ms-3">상품리뷰 (건)</span>
+		</div>
+		<div class="col-md-6 text-end">
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			  리뷰 작성
+			</button>
+			
+			<!--로그인 상태에서 리뷰작성으로 넘어가는 코드-->
+			<!--review modal-->
+			<div sec:authorize="isAuthenticated()" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+					<!--이자리에 아이콘-->
+					<img th:src="@{/icons/review.png}" class="me-3">
+			        <h1 class="modal-title fs-5" id="exampleModalLabel">리뷰 작성</h1>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+				  <!--리뷰 작성 폼-->
+				  <form th:action="@{/review/add}" method="post">
+					<!--memberId를 받을 때 writer.memberId로 받아야 한다 이유는 엔터티에서 그렇게 세팅되어 있기 때문에 형식을 맞춰 줘야 한다-->
+					<input type="hidden" name="writer.memberId" th:value="${#authentication.getPrincipal().getUsername()}">
+					<input type="hidden" name="bookId" th:value="${book.bookId}">
+					<input type="hidden" name="rating" class="live-rating2" value="">
+				      <div class="modal-body">
+						<!--책정보-->
+						<div class="mb-3 p-2 d-flex  book-info">
+							<div class="d-flex flex-wrap justify-content-start m-book1">
+								<img th:src="|/BookMarket/images/${book.fileName}|" class="img-review">
+							</div>
+							<div class="m-book2">
+								<div class="mb-2 mt-1">
+									<span class="book-title">[[${book.title}]]</span>
+								</div>
+								<div>
+									저자 - <span>[[${book.author}]]</span>
+								</div>
+								<div>
+									출판사 - <span>[[${book.publisher}]]</span>
+								</div>
+								<!--별점-->
+								<div class="mt-4 star-rating">
+									<div class="star-score">별점</div>
+									<span class="my-rating-4"></span>
+									<span class="live-rating scores"></span>
+								</div>
+							</div>
+						</div>
+						
+						<!--리뷰영역-->						
+			            <div class="mb-3 review-area">
+				          <label for="subject" class="col-form-label d-flex align-items-start">Review Title</label>
+				          <input type="text" name="subject" id="subject" class="form-control" placeholder="제목은 2~200글자 사이로 입력해주세요">
+				        </div>
+				        <div class="m-content review-area">
+				          <label for="content" class="col-form-label d-flex align-items-start">Review Content</label>
+				          <textarea name="content" id="content" rows="12" class="form-control"  placeholder="내용은 2~2000글자 사이로 입력해주세요"></textarea>
+				        </div>
+				      </div>
+				      <div class="modal-footer align-self-center">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				        <button type="submit" class="btn btn-primary">리뷰전송</button>
+				      </div>
+				  </form>
+			    </div>
+			  </div>
+			</div>
+			<!--end review modal-->
+
+			<!--비로그인 알림창 : 로그인 페이지로 이동-->
+			<!-- Modal -->
+			<div sec:authorize="isAnonymous()" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content py-4">
+			      <div class="modal-header align-self-center m-line m-h">
+		        	<h5 class="modal-title" id="exampleModalLabel">BookMarket Alert</h5>
+			        <!--<button type="button" class="btn-close ms-8" data-bs-dismiss="modal" aria-label="Close"></button>-->
+			      </div>
+			      <div class="modal-body align-self-center text-center m-line m-b">
+			        로그인 후 이용 가능합니다.<br>
+					로그인 페이지로 이동하시겠습니까?
+			      </div>
+			      <div class="modal-footer d-flex align-self-center  m-line m-btn m-f">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+			        <a th:href="@{/login}" class="btn btn-primary d-flex align-items-center justify-content-center">확인</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!--end-modal-->
+		</div>
+	</div>
+</div>
+
+<!--리뷰 목록-->
+<hr>
+<div class="row align-items-md-stretch mt-5 col-md-10">
+	<div th:each="review : ${reviewList}">
+		<div class="col-md-12">
+			<div class="d-r-1 mb-2">
+				[[${review.subject}]]
+			</div>
+			<div class="d-r-2 mb-3  text-secondary">
+				<span class="mx-2">
+					<span th:if="${review.rating} == 5">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 4.5">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star2.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 4">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 3.5">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star2.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 3">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 2.5">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star2.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 2">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star1.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 1.5">
+						<img th:src="@{/icons/star1.png}" width="16">
+						<img th:src="@{/icons/star2.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 1">
+						<img th:src="@{/icons/star1.png}" width="16">
+					</span>
+					<span th:if="${review.rating} == 0.5">
+						<img th:src="@{/icons/star2.png}" width="16">
+					</span>
+					<span th:if="${review.rating == 0 or review.rating == null}">
+						별점 없음
+					</span>
+				</span> | 
+				<span class="mx-2">[[${review.writer.memberId}]]</span> | 
+				<span class="mx-2">[[${review.createDate}]]</span>
+			</div>
+			<div class="d-r-3">
+				[[${review.content}]]
+			</div>
+			<div class="">
+				<a  class="a-r-3 btn text-success">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+					</svg>
+				더보기
+				</a>
+				<a  class="a-r-4 btn text-success">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+					  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+					</svg>
+				접기
+				</a>
+			</div>
+		</div>
+		<div class="col-md-12 text-end">
+			<a class="btn btn-sm btn-outline-danger">
+				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+					<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+				</svg>
+				<!--꽉찬 하트-->
+				<!--<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+				</svg>-->
+			</a>
+			<a class="btn btn-sm btn-outline-primary ms-2 me-4">
+				댓글
+			</a>
+		</div>
+		<hr class="mb-3">
+	</div>
+</div>
+
