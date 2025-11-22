@@ -23,15 +23,15 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		
 		// 2. 권한에 따른 이동 경로 설정
-		String redirectUrl = "/cars";
+		String redirectUrl = "/";
 		
 		for(GrantedAuthority authority : authorities) {
 			if(authority.getAuthority().equals("ROLE_ADMIN")) {			// admin
 				redirectUrl = "/admin";
-			} else if(authority.getAuthority().equals("ROLE_MANAGER")) {			// Manager
-				redirectUrl = "/manager";
+			} else if(authority.getAuthority().equals("ROLE_DEALER")) {			// dealer
+				redirectUrl = "/dealer";
 			} else {		// normal user
-				redirectUrl = "/cars";
+				redirectUrl = "/";
 			}
 		}
 		

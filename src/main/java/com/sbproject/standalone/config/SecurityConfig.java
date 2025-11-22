@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,6 +46,9 @@ public class SecurityConfig {
 	// manager 권한을 가진 사용자만, dealer 페이지 접속
 	// 2. 로그인 기본 경로, 성공했을 때의 경로, 실패했을 때의 경로, 로그인 처리에 사용되는 파라미터명(name으로 전달되는 이름) 설정 
 	// 3. 로그아웃 기본 경로, 성공했을 때의 경로
+	// CustomLoginSuccessHandler -> 로그인 했을때 스프링 시큐리티가 작동 할 수 있도록 여러 설정을 해놓는 클래스
+	// MemberService 에서 implements UserDetailsService 하여 실제 로그인시 작동하는 메서드를 구현한다.
+	
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
@@ -53,13 +57,13 @@ public class SecurityConfig {
 		// 어드민, 매니저만 접속할 수 있게 하는 코드 
 			.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 				.requestMatchers("/admin/*").hasRole("ADMIN")		// admin authority
-				.requestMatchers("/manager/*").hasRole("MANAGER")	// manager authority
+				.requestMatchers("/dealer/*").hasRole("DEALER")	// dealer authority
 				.anyRequest().permitAll())
 			// 로그인 처리
 			.formLogin(formLogin -> formLogin
 				.loginPage("/login")
 				.loginProcessingUrl("/login")
-//				.defaultSuccessUrl("/cars")
+				.defaultSuccessUrl("/")
 				.successHandler(customSuccessHandler)
 				.failureUrl("/loginfailed")
 				.usernameParameter("username")
@@ -67,7 +71,7 @@ public class SecurityConfig {
 			// 로그아웃 처리
 			.logout(logout -> logout
 				.logoutUrl("/logout")
-				.logoutSuccessUrl("/cars"));
+				.logoutSuccessUrl("/"));
 		
 		return http.build();
 	}

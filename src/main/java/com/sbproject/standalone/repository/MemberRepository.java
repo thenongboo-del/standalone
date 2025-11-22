@@ -20,10 +20,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// 회원정보 수정
 	// nativeQuery = true  -> 테이블 기준으로 작성
 	// nativeQuery = false -> 엔터티 기준으로 작성
-	public final String UPDATE_MEMBER = "update member m inner join address a on m.address_id = a.id "
+	public final String UPDATE_MEMBER = "update member m"
 			+ " set name = :#{#member.name}, password = :#{#member.password}, phone = :#{#member.phone}, email = :#{#member.email}, "
-			+ " gender = :#{#member.gender}, age = :#{#member.age}, country = :#{#member.address.country}, zipcode = :#{#member.address.zipcode}, "
-			+ " basic_address = :#{#member.address.basicAddress}, detail_address = :#{#member.address.detailAddress} "
+			+ " gender = :#{#member.gender}"
 			+ " where member_id = :#{#member.memberId}";
 	@Transactional
 	@Modifying

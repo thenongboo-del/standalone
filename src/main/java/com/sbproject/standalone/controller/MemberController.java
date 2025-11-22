@@ -1,6 +1,8 @@
 package com.sbproject.standalone.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,6 +62,8 @@ public class MemberController {
 			Member m = Member.createMember(member, passwordEncoder);
 			m.setRegDate(LocalDateTime.now());	
 //			m.setCSegment("신규");
+			int age = Period.between(m.getBirthDay(), LocalDate.now()).getYears();		// 생일과 현재 날짜의 기간을 구해서 년도로 변환해서 나이를 구한다.
+			m.setAge(age);
 			memberService.saveMember(m);
 		} catch(DataIntegrityViolationException e) {
 			// rejectValue(필드명, 오류코드, 메시지)
@@ -82,6 +86,7 @@ public class MemberController {
 	@GetMapping("/update/{memberId}")
 	public String updateMemberForm(@PathVariable("memberId") String memberId, Model model) {
 		Member member = memberService.findByMemberId(memberId);
+		member.setAges();
 		model.addAttribute("member", member);
 		
 		return "member/updateMember";
@@ -90,6 +95,8 @@ public class MemberController {
 	// 회원정보 수정 처리
 	@PostMapping("/update")
 	public String updateMemberPro(@Valid @ModelAttribute Member member, BindingResult bindingResult) {
+		
+		
 		// 유효성 검사
 		if(bindingResult.hasErrors()) {
 			return "member/updateMember";
@@ -105,11 +112,14 @@ public class MemberController {
 		try {
 			Member m = Member.createMember(member, passwordEncoder);
 			memberService.updateMember(m);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return "member/updateMember";
 		}
 		
+//		member.setAges();
+				
 		return "redirect:/member/update/" + member.getMemberId();
 	}
 	

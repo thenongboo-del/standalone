@@ -154,4 +154,6 @@ body {
 	margin-left: 50px;
 }
 
-
+#memberId, #name, #birthDay, #gender, #age {
+	color: rgb(0, 128, 255)
+}

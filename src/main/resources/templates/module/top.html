@@ -1,7 +1,7 @@
 <link th:href="@{/css/top.css}" rel="stylesheet">
 <header>
-	<div>
-		<img th:src="@{/img/logo.png}" id="logo">
+	<div id="logo">
+		<img th:src="@{/img/logo.png}" id="logo-img">
 	</div>
 	<div class="menuButton title">
 		<a th:href="@{/}">StandAlone Cars</a>
@@ -24,15 +24,32 @@
 	<div class="menuButton menu">
 		고객센터
 	</div>
+	
+	<!--비로그인 메뉴 상태 -->
 	<div class="menuButton signMenu" id="login">
-		<a th:href="@{/login}">로그인</a>
+		<a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
 	</div>
 	<div class="menuButton signMenu">
-		<a th:href="@{/member/join}">회원가입</a>
+		<a sec:authorize="isAnonymous()" th:href="@{/member/join}">회원가입</a>
+	</div>
+	
+	<!-- 일반회원 로그인 상태 -->
+	<div class="profileArea">
+		<a sec:authorize="isAuthenticated()" th:href="@{|/member/update/${#authentication.getPrincipal().getUsername()}|}" class="nav-link align-self-center ms-2" title="회원정보">
+			<img th:src="@{/icons/profile.png}" class="icon-profile">
+		<div class="userId">[[${#authentication.getPrincipal().getUsername()}]]</div>
+		</a>
+	</div>
+	<div class="logoutArea">
+		<a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link align-self-center ms-2">
+			로그아웃
+			<!--<img th:src="@{/icons/logout.png}" class="icon-logout" title="로그아웃">-->
+		</a>
 	</div>
 	
 </header>
-
-
+<!-- 관리자용 메뉴 -->
+<!--<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/books/admin/add}" class="nav-link align-self-center mx-2">도서 등록</a>-->
+		
 		
 				

@@ -23,8 +23,6 @@ public class MainContoller {
 	 @GetMapping("/")
 	    public String requestMain(HttpServletRequest request, Model model) {
 	        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-	        System.out.println(">>> flashMap = " + flashMap);                // 디버그: 콘솔에 출력
-	        System.out.println(">>> model keys = " + model.asMap().keySet()); // 디버그: 기존 모델 키
 
 	        // flashMap에 값이 있으면 명시적으로 모델에 넣어준다
 	        if (flashMap != null && flashMap.containsKey("flashMessage")) {

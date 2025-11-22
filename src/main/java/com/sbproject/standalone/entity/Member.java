@@ -1,6 +1,8 @@
 package com.sbproject.standalone.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -16,9 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -98,8 +98,8 @@ public class Member {
 	
 	// 추가 - 생년월일, 가입일, 고객분류
 //	@NotBlank(message = "생년월일은 필수 입력사항입니다.")
-	@Column(columnDefinition = "char(10)")
-	private String birthDay;
+	@Column(columnDefinition = "date")
+	private LocalDate birthDay;
 	
 	// 가입일
 	@Column(columnDefinition = "datetime default now()")
@@ -114,7 +114,8 @@ public class Member {
 	
 	// 사용자 나이는 생년월일에서 오늘 날짜를 계산해서 가져와야 할 듯
 //	@NotNull @Min(value=1)
-//	private Integer age;
+	@Transient
+	private Integer age;
 	
 	// 사용자 역할
 	@Enumerated(EnumType.STRING)
@@ -126,10 +127,10 @@ public class Member {
 	- 각 회원은 1개의 주소와 매핑됨
 	- CascadeType.ALL -> 회원을 삭제하면 회원에 대한 주소도 함께 삭제됨	
 	*/
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	@Valid // Address의 각 멤버에 대한 유효성 검사
-	private Address address;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "address_id")
+//	@Valid // Address의 각 멤버에 대한 유효성 검사
+//	private Address address;
 	
 	
 	// 회원 생성 메서드
@@ -139,5 +140,14 @@ public class Member {
 		member.role = Role.USER;
 		return member;
 	}
+	
+	
+	// 생일로 날짜 구하는 메서드
+	public void setAges() {
+		int ages = Period.between(this.getBirthDay(), LocalDate.now()).getYears();		// 생일과 현재 날짜의 기간을 구해서 년도로 변환해서 나이를 구한다.
+		this.setAge(ages);
+	}
+	
+	
 	
 }

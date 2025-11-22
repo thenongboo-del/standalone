@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Momo+Trust+Display&family=Noto+Sans+KR:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
+/* 하늘색 파랑색 주황색 회색*/
+
 header {
 	width: 100%;
 	height: 100px;
@@ -28,8 +30,7 @@ a:hover {
 
 
 .title {
-	margin-left: 40px;
-	
+	margin-left:3%;
 	font-size: 2em;
 	font-family: "Momo Trust Display", sans-serif;
 	font-weight: 400;
@@ -37,27 +38,31 @@ a:hover {
 }
 
 .menu {
+	margin-left: 8%;
 	font-weight: bold;
 	margin-top: 45px;
 	font-size: 1.45em;
-	margin-left: 100px;
+	
 	
 }
 
 #logo {
-	margin-left: 30px;
+	margin-left:2%;
+}
+
+#logo-img {
 	width: 70px;
 	height: 70px;
 }
 
 
 #login {
-	margin-left: 180px;
+	margin-left: 3%;
 		
 }
 
 .signMenu {
-	margin-left: 20px;
+	margin-left: 1%;
 	margin-top : 50px;
 }
 
@@ -77,4 +82,35 @@ a:hover {
 	width: 25px;
 	height: 25px;
 	
+}
+
+
+.icon-profile {
+	width: 40px;
+}
+
+
+.profileArea {
+	text-align: center;
+	font-weight: 800;
+	margin-top: 20px;
+	margin-left: 1%;
+}
+
+.userId {
+	background-color: black;
+}
+
+
+.icon-logout {
+	width: 25px;
+}
+
+.logoutArea {
+	margin-top: 55px;
+	margin-left: 1.5%;
+}
+
+.logoutArea:hover a{
+	color:rgb(0, 128, 255);
 }

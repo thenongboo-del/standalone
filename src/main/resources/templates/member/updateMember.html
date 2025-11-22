@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정</title>
+	<link th:href="@{/css/updateMember.css}" rel="stylesheet">
+	<link th:href="@{/js/updateMember.js}" rel="stylesheet">
+</head>
+<body>
+    <div class="signup-container">
+        <form th:object="${member}" th:action="@{/member/update}" method="post" class="signup-form">
+            <h2>회원정보 수정</h2>
+            <div class="div-labelAndAlert">
+				<div class="validation-alert">
+		            <label for="memberId">아이디</label>
+					<p class="text-danger" th:errors="*{memberId}"></p>	
+				</div>
+			</div>
+			<div class="idBox">
+	            <input type="text" id="memberId" name="memberId" class="memberId" placeholder="아이디 입력" th:field="*{memberId}" readonly>
+				<!--<button class="checkId">중복 체크</button>-->
+			</div>
+			<div class="id-info">
+				<span>회원 아이디, 이름, 생년월일, 성별, 나이는 수정 할 수 없습니다.</span>
+			</div>
+			<div class="div-labelAndAlert">
+				<div class="validation-alert">
+	            	<label for="email">이메일</labe>
+					<p class="text-danger" th:errors="*{email}"></p>	
+				</div>
+			</div>
+            <input type="email" id="email" name="email" placeholder="이메일 입력" th:field="*{email}" required>
+            
+			<!--<button class="passwordChangeButton">비밀번호변경</button>-->
+			<div class="passwordArea">
+				<div class="div-labelAndAlert">
+					<div class="validation-alert">
+		            	<label for="password">비밀번호</label>
+						<p class="text-danger" th:errors="*{password}"></p>	
+					</div>
+				</div>
+	            <input type="password" id="password" name="password" placeholder="비밀번호 입력" th:field="*{password}" required>
+	            
+				<div class="div-labelAndAlert">
+					<div class="validation-alert">
+		            	<label for="password2">비밀번호 확인</label>
+						<p class="text-danger" th:errors="*{password2}"></p>	
+					</div>
+				</div>
+	            <input type="password" id="password2" name="Password2" placeholder="비밀번호 확인" th:field="*{password2}" required>
+			</div>
+			
+			
+            <div class="div-nameAndBirthDay">
+				<div>
+					<div class="nameArea">
+						<label for="name">이름</label>
+			            <input type="text" id="name" name="name" placeholder="이름 입력" th:field="*{name}" readonly>
+					</div>
+				</div>
+				<div>
+					<div class="birthDayArea">
+						<label for="birthDay" class="label-birthDay">생년월일</label>
+			            <input type="text" id="birthDay" name="birthDay" th:field="*{birthDay}" readonly>
+					</div>
+				</div>
+			</div>
+			
+			<div class="div-labelAndAlert">
+				<div class="validation-alert">
+					<label for="phone">핸드폰</label>
+					<p class="text-danger" th:errors="*{phone}"></p>	
+				</div>
+			</div>
+            <input type="text" id="phone" name="phone" placeholder="핸드폰 입력" th:field="*{phone}" required>
+			
+			<div class="genderAndAge">
+				<div>
+					<label for="gender">성별</label>
+					<input type="text" id="gender" name="gender" th:field="*{gender}" readonly>
+				</div>
+				<div class="ageArea">
+					<label for="gender">나이</label>
+					<input type="text" id="age" name="age" th:field="*{age}" readonly>
+				</div>
+			</div>
+            <button type="submit">정보수정</button>
+        </form>
+    </div>
+</body>
+</html>
