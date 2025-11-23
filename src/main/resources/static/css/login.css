@@ -37,6 +37,17 @@ body {
     font-size: 14px;
 }
 
+.idArea{
+	display: flex;
+	color:rgb(0, 128, 255);
+	font-size: 0.8em;
+}
+
+#failToLogin {
+	margin-left: 10px;
+}
+
+
 .login-form input {
     padding: 12px;
     margin-bottom: 20px;
@@ -70,7 +81,7 @@ body {
     margin-top: 15px;
     text-align: center;
     color: #ccc;
-    font-size: 13px;
+    font-size: 0.9em;
 }
 
 .login-footer a {

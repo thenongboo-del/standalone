@@ -21,6 +21,7 @@ public class LoginController {
 	// 로그인 실패 처리
 	@GetMapping("/loginfailed")
 	public String loginError(Model model) {
+		model.addAttribute("failToLogin","아이디가 존재하지 않거나, 비밀번호가 맞지 않습니다.");
 		model.addAttribute("error", "true");
 		return "login";
 	}

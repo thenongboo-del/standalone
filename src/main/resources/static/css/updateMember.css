@@ -157,3 +157,22 @@ body {
 #memberId, #name, #birthDay, #gender, #age {
 	color: rgb(0, 128, 255)
 }
+
+
+.toTheMain{
+	margin-top: 10px;
+	text-align: center;
+}
+
+
+.toTheMain a {
+	text-decoration: none;
+	font-weight: 800;
+	font-size: 1.05em;
+	color:rgb(128, 128, 128);
+ }
+ 
+ .toTheMain a:hover {
+	color:rgb(192, 192, 192);
+}
+

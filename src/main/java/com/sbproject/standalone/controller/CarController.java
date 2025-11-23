@@ -125,7 +125,7 @@ public class CarController {
 //		model.addAttribute("sliderList2", sliderList2);
 //		sliderList2.forEach(c -> log.info(c.toString()));
 		
-		return "car/cars";
+		return "car/carList";
 	}
 	
 	
