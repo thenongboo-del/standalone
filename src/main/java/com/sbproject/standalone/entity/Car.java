@@ -2,20 +2,19 @@ package com.sbproject.standalone.entity;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.ToString;
 
 // 상품 클래스
 /*
@@ -88,5 +87,9 @@ public class Car {
 	// 생성할 테이블에서는 필드는 제외함
 	@Transient
 	private MultipartFile carImage; // 업로드된 차량 이미지
+	
+	
+	@OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CarDetailInfo carDetailInfo;
 	
 }

@@ -9,7 +9,8 @@ html, body {
 
 
 #mainImg {
-	width: 100%;
+	margin-left: -1px;
+	width: 100.1%;
 }
 
 .testArea {

@@ -30,7 +30,8 @@ a:hover {
 
 
 .title {
-	margin-left:3%;
+	margin-left:4%;
+	margin-right:2%;
 	font-size: 2em;
 	font-family: "Momo Trust Display", sans-serif;
 	font-weight: 400;
@@ -38,10 +39,10 @@ a:hover {
 }
 
 .menu {
-	margin-left: 8%;
+	margin:0 3% 0 3%;
 	font-weight: bold;
 	margin-top: 45px;
-	font-size: 1.45em;
+	font-size: 1.2em;
 	
 	
 }
@@ -51,18 +52,18 @@ a:hover {
 }
 
 #logo-img {
-	width: 70px;
-	height: 70px;
+	width: 100px;
+	height: 100px;
 }
 
 
 #login {
-	margin-left: 3%;
+	/*margin-left: 3%;*/
 		
 }
 
 .signMenu {
-	margin-left: 1%;
+	margin-left: 2%;
 	margin-top : 50px;
 }
 

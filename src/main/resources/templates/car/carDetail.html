@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>[[${car.name}]] 상세정보</title>
+  <script th:src="@{/js/carDetail.js}" defer></script>
+  <link th:href="@{/css/carDetail.css}" rel="stylesheet">
+</head>
+<body>
+	<th:block th:replace="~{/module/top.html}"></th:block>
+  <div class="wrap">
+    <!-- header -->
+    <div class="header">
+      <h1 class="topCarName" >[[${car.name}]]</h1>
+      <p style="margin:6px 0 0;color:var(--muted)">StandAlone Cars</p>
+    </div>
+
+    <!-- hero - media + details -->
+    <div class="hero">
+      <div class="media">
+        <!-- main image -->
+        <img id="mainImage" th:src="|/CRMSystem/images/${car.fileName}|" alt="[[${car.name}]]" class="main-img">
+
+
+        <!-- thumbnails - optional files -->
+        <div class="thumbs">
+			<img th:src="|/CRMSystem/images/${car.name}01.png|" alt="g0">
+			<img th:src="|/CRMSystem/images/${car.name}02.png|" alt="g1">
+			<img th:src="|/CRMSystem/images/${car.name}03.png|" alt="g2">
+			<img th:src="|/CRMSystem/images/${car.name}04.png|" alt="g3">
+			<img th:src="|/CRMSystem/images/${car.name}05.png|" alt="g4">
+        </div>
+        <!-- download link -->
+        <div style="width:100%;display:flex;justify-content:center;gap:12px">
+          <a id="downloadLink" th:href="@{|/cars/download?file=${car.fileName}|}" class="btn btn-outline" aria-label="이미지 다운로드">이미지 다운로드</a>
+          
+        </div>
+      </div>
+
+      <div class="details">
+        <h2 class="title" th:text="${car.name}"></h2>
+        <!--<p class="sub">상세정보</p>-->
+        <div class="meta">
+          <div><b>제조회사</b> : <a th:href="@{|/cars/state?state=company&keyword=${car.company}|}"><span>[[${car.company}]]</span></a></div>
+          <div><b>차량</b> : <a th:href="@{|/cars/state?state=category&keyword=${car.category}|}"><span>[[${car.category}]]</span></a></div>
+          <div><b>연료</b> : <a th:href="@{|/cars/state?state=fuelType&keyword=${car.fuelType}|}"><span>[[${car.fuelType}]]</span></a></div>
+          <!--<div><b>정가</b> : <span class="price">[[${#numbers.formatInteger(car.price,3,'COMMA')}]]원</span></div>-->
+        </div>
+
+        <div class="actions">
+          <!-- keep thymeleaf/security attributes; these will render appropriately on server -->
+          
+			<div class="buttonArea">
+	        	<a sec:authorize="isAnonymous()" th:href="|javascript:alert('로그인 후 사용 할 수 있는 메뉴입니다.')|" id="btnOrderAsk" class="btn btn-outline">구매상담</a>
+	        	<a sec:authorize="isAuthenticated()" id="btnCartAdd" class="btn btn-outline">구매상담</a>
+				<a th:href="@{/cars}" class="btn btn-outline">목록으로</a>
+			</div>
+
+        </div>
+		<hr>
+		<div class="advertisementArea">
+			<img th:src="@{/images/advertise01.gif}" class="advertisement">
+		</div>
+
+        <form method="post" name="addCartForm" style="display:none">
+          <input type="hidden" name="_method" value="put">
+          <input type="hidden" id="carId" th:value="${car.carId}">
+        </form>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- additional details / gallery -->
+    <div class="section">
+		<div class="bottom-info-title">
+			<span th:if="${car.company == '현대'}">
+				<a th:href="@{|/cars/state?state=company&keyword=${car.company}|}"><img th:src="|/CRMSystem/icons/hyundai.png|" width="40"></a>
+			</span>
+			<span th:if="${car.company == '기아'}">
+				<a th:href="@{|/cars/state?state=company&keyword=${car.company}|}"><img th:src="|/CRMSystem/icons/kia.png|" width="40"></a>
+			</span>
+			<div class="h3Area">
+		    	<h3 style="margin:0" th:text="${car.name}"></h3>
+			</div>
+	    	<p style="margin:0;">
+			<a th:href="@{|/cars/state?state=category&keyword=${car.category}|}">[[${car.category}]]</a>
+			</p>
+		</div>
+
+      <div class="gallery" style="margin-top:12px">
+        <img th:src="|/CRMSystem/images/${car.name}02.png|" alt="g1">
+        <img th:src="|/CRMSystem/images/${car.name}03.png|" alt="g2">
+        <img th:src="|/CRMSystem/images/${car.name}04.png|" alt="g3">
+        <img th:src="|/CRMSystem/images/${car.name}05.png|" alt="g4">
+      </div>
+    </div>
+	<div class="detailBtnArea">
+		<button class="btn btn-outline detailBtn">상세스펙</button>
+	</div>
+
+	<div class="detailInfo">
+	    <table class="spec-table">
+	        <tr>
+	            <th>엔진</th>
+	            <td>[[${car.carDetailInfo.engine}]]</td>
+	        </tr>
+	        <tr>
+	            <th>연료</th>
+	            <td>[[${car.carDetailInfo.fuel}]]</td>
+	        </tr>
+	        <tr>
+	            <th>변속기</th>
+	            <td>[[${car.carDetailInfo.transmission}]]</td>
+	        </tr>
+	        <tr>
+	            <th>최고출력</th>
+	            <td>[[${car.carDetailInfo.maxPower}]] hp</td>
+	        </tr>
+	        <tr>
+	            <th>최대토크</th>
+	            <td>[[${car.carDetailInfo.maxTorque}]] kgf·m</td>
+	        </tr>
+	        <tr>
+	            <th>배기량</th>
+	            <td>[[${car.carDetailInfo.displacement}]] L</td>
+	        </tr>
+	        <tr>
+	            <th>구동방식</th>
+	            <td>[[${car.carDetailInfo.driveType}]]</td>
+	        </tr>
+	        <tr>
+	            <th>연료탱크 용량</th>
+	            <td>[[${car.carDetailInfo.fuelTank}]] L</td>
+	        </tr>
+	        <tr>
+	            <th>배터리 종류</th>
+	            <td>[[${car.carDetailInfo.batteryType}]]</td>
+	        </tr>
+	        <tr>
+	            <th>배터리 용량</th>
+	            <td>[[${car.carDetailInfo.batteryCapacity}]] kWh</td>
+	        </tr>
+	        <tr>
+	            <th>1회 충전 주행거리</th>
+	            <td>[[${car.carDetailInfo.evRange}]] km</td>
+	        </tr>
+	        <tr>
+	            <th>충전시간(급속)</th>
+	            <td>[[${car.carDetailInfo.fastChargeTime}]]</td>
+	        </tr>
+	        <tr>
+	            <th>충전시간(완속)</th>
+	            <td>[[${car.carDetailInfo.slowChargeTime}]]</td>
+	        </tr>
+	        <tr>
+	            <th>공차중량</th>
+	            <td>[[${car.carDetailInfo.curbWeight}]] kg</td>
+	        </tr>
+	    </table>
+	</div>
+
+  </div>
+
+</body>
+</html>

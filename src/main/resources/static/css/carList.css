@@ -1,0 +1,250 @@
+html, body {
+    margin: 0;
+    padding: 0;
+	background-color: rgb(255, 255, 255);
+	
+}
+
+a {
+	color: white;
+}
+
+
+.container {
+	margin: 0;
+	padding: 0;
+	margin-top: 100px;
+}
+
+.carListBoxAndPaging {
+	width: 100%;
+}
+
+
+.modelList {
+	color: black;
+	text-align: center;
+	font-size: 1.2em;
+	margin-top: -10px;
+}
+
+.modelList a {
+	text-decoration: none;
+}
+.modelList a:hover {
+	color:black;
+}
+
+aside {
+	margin: 0;
+	padding: 0;
+	width: 250px;
+}
+
+.carListBox {
+	margin-top: 0.5%;
+	margin-left: 5.5%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;	
+	
+	min-height: 65vh;
+}
+
+.carBox {
+	text-align: center;
+	width: 220px;
+	margin-right: 5.5%;
+}
+
+
+.carBox a{
+	color: black;
+}
+
+.carBox p{
+	margin: 5px 0 5px 0;
+}
+
+.carBox .modelName{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-weight: 800;
+}
+
+
+.carImg {
+	width: 260px;
+	height: 130px;
+}
+
+.container-aside{
+	margin: 0;
+	padding: 0;
+	padding-top: 30px;
+	width: 100%;
+	min-height: 89.1vh;
+	background-color: rgb(0, 0, 0);
+}
+
+.container-aside ul{
+	margin: 0;
+	margin-left: 10px;
+	padding: 0;
+	color: white;
+}
+
+.container-aside li{
+	margin-left: 10px; 
+}
+
+.asideAndCarList {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 0;
+	min-height: 65vh;
+	min-width: 90vh;
+}
+
+
+.container-paging {
+	display: flex;
+	width: 100%;	
+	justify-content: center;
+}
+
+.container-paging a {
+	color:black;
+}
+.container-paging ul{
+	display: flex;
+	list-style: none;
+}
+
+.container-paging li{
+	margin:0 10% 0 10%;
+	font-size: 1.3em;
+}
+
+.pagingNumberAndArrow {
+	margin-right: 18%;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+
+
+
+/*aside menu*/
+
+/* 아코디언 메뉴 전체 스타일 */
+.accordion-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-header {
+  padding: 18px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  transition: background 0.3s;
+  user-select: none;
+}
+
+.menu-header:hover {
+	color: #ff5500;
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.menu-header span {
+	font-size: 1.05em;
+}
+
+/* 화살표 애니메이션 */
+.arrow {
+  	transition: transform 0.3s ease;
+}
+
+.menu-item.active .arrow {
+ 	transform: rotate(180deg);
+}
+
+/* 서브메뉴 */
+.submenu {
+  	list-style: none;
+  	max-height: 0;
+ 	overflow: hidden;
+	transition: max-height 0.4s ease, padding 0.4s ease;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menu-item.active .submenu {
+  	max-height: 600px; /* 충분히 크게 */
+  	padding: 12px 0;
+}
+
+.submenu li {
+  	padding: 10px 0;
+  	margin-left: 30px;
+  	transition: all 0.2s;
+}
+
+.submenu a {
+  	color: rgba(255, 255, 255, 0.85);
+  	text-decoration: none;
+  	font-size: 0.95em;
+  	transition: color 0.2s;
+}
+
+.submenu a:hover {
+  	color: #ff5500;
+  	/*padding-left: 5px;*/
+}
+
+.searchFromArea{
+	margin-left: -13px;
+ 	display: flex;
+ 	align-items: center;   /* 세로 가운데 정렬 */
+ 	gap: 8px;              /* 입력창과 버튼 사이 간격 */
+}
+
+/* 입력창 */
+.searchBox{
+  	height: 36px;
+  	width: 120px;          /* 원하는 너비로 조절 */
+  	padding: 6px 10px;
+  	box-sizing: border-box;
+  	border-radius: 6px;
+  	border: 1px solid #ccc;
+}
+
+/* 버튼 (아이콘 중앙 정렬) */
+.searchBtn{
+  	height: 33px;
+  	width: 33px;
+  	display: inline-flex;
+  	align-items: center;
+  	justify-content: center;
+  	border: none;
+  	border-radius: 6px;
+  
+  	cursor: pointer;
+  	padding: 0;
+}
+
+.searchBtn svg{
+  	display: block;
+}
+
+	
