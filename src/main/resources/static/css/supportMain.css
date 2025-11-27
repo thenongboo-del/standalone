@@ -1,0 +1,73 @@
+html, body {
+    margin: 0;
+    padding: 0;
+	background-color: rgb(255, 255, 255);
+}
+
+
+.container {
+	margin: 0;
+	padding: 0;
+	margin-left: 250px;
+	margin-top: 100px;
+	background: url(/CRMSystem/images/maincar.jpg);
+	min-height: 89vh;
+	background-position: -230px 0px;
+}
+
+
+.h1Area {
+	/*margin-top: 160px;*/
+}
+
+h1 {
+	padding-top: 20px;
+	text-align: center;
+	color:white;
+}
+
+.asideAndContent {
+}
+
+.content {
+	
+}
+
+
+.boxArea{
+	margin: 3% auto 0;   /* 가운데 정렬 */
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 20px;            /* 박스 간 간격(선택) */
+	max-width: 600px;     /* 두 개가 들어가는 넓이로 제한 */
+}
+
+.boxArea h4 {
+	color: white;
+}
+
+.boxArea p {
+	font-size: 0.9em;
+	color: rgb(138, 138, 138);	
+	
+}
+	
+.borderBox{
+	width: 250px;
+	height: 250px;
+	border: 3px solid rgb(18, 18, 18);
+	background-color: rgb(0, 0, 0);
+	border-radius: 20px;
+	text-align: center;
+	transition: all 0.5s;
+}
+
+.borderBox:hover {
+	border: 3px solid #ff5500;
+}
+
+.boxIcon {
+	margin-top: 30px;
+	width: 100px
+}

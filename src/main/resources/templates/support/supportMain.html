@@ -1,0 +1,71 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<link th:href="@{/css/supportMain.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>고객센터</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<div class="content">
+			
+			<div class="boxArea">
+				<a th:href="@{/support/qna}">
+					<div class="qnaBox">
+						<div class="borderBox">
+							<img th:src="@{/icons/qna.png}" class="boxIcon">
+							<h4>Q&A</h4>
+							<p>궁금한점을 게시글로 물어보세요</p>
+						</div>
+					</div>
+				</a>
+				<a th:href="@{/support/faq}">
+					<div class="faqBox">
+						<div class="borderBox">
+							<img th:src="@{/icons/faq.png}" class="boxIcon">	
+							<h4>FAQ</h4>			
+							<p>자주 물어보는 질문들을 모았습니다</p>	
+						</div>
+					</div>
+				</a>
+				
+				<a th:href="@{/support/find}">
+					<div class="findBox">
+						<div class="borderBox">
+							<img th:src="@{/icons/find.png}" class="boxIcon">
+							<h4>서비스센터 찾기</h4>
+							<p>나와 가장 가까운 서비스센터는 어디?</p>
+						</div>
+					</div>
+				</a>
+				
+				<a th:href="@{/support/chatbot}">
+					<div class="chatbotBox">
+						<div class="borderBox">
+							<img th:src="@{/icons/chatbot.png}" class="boxIcon">
+							<h4>ChatBot</h4>
+							<p>AI 챗봇 상담</p>
+						</div>
+					</div>
+				</a>
+				
+			</div> <!--box Area-->
+			
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>

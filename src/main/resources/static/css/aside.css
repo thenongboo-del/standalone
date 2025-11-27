@@ -1,0 +1,113 @@
+
+/*
+.container-aside ul{
+	margin: 0;
+	margin-left: 10px;
+	padding: 0;
+	color: white;
+}
+
+.container-aside li{
+	margin-left: 10px; 
+}
+*/
+/*aside menu*/
+
+/* 아코디언 메뉴 전체 스타일 */
+
+
+aside {
+	position: fixed;
+	top: 100px;
+	left: 0;
+	width: 250px;
+	min-height: 89vh;
+	margin:0;
+	padding:0;
+	background-color: black;
+	
+}
+aside span{
+	color: white;
+}
+
+.container-aside {
+	margin-top: 70px;
+}
+
+.asideArea {
+	margin: 0;
+	padding: 0;
+}
+
+
+.accordion-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-header {
+  padding: 18px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  transition: background 0.3s;
+  user-select: none;
+}
+
+.menu-header:hover {
+	color: #ff5500;
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.menu-header span {
+	font-size: 1.05em;
+}
+
+/* 화살표 애니메이션 */
+.arrow {
+  	transition: transform 0.3s ease;
+}
+
+.menu-item.active .arrow {
+ 	transform: rotate(180deg);
+}
+
+/* 서브메뉴 */
+.submenu {
+  	list-style: none;
+  	max-height: 0;
+ 	overflow: hidden;
+	transition: max-height 0.4s ease, padding 0.4s ease;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menu-item.active .submenu {
+  	max-height: 600px; /* 충분히 크게 */
+  	padding: 12px 0;
+}
+
+.submenu li {
+  	padding: 10px 0;
+  	margin-left: 30px;
+  	transition: all 0.2s;
+}
+
+.submenu a {
+  	color: rgba(255, 255, 255, 0.85);
+  	text-decoration: none;
+  	font-size: 0.95em;
+  	transition: color 0.2s;
+}
+
+.submenu a:hover {
+  	color: #ff5500;
+  	/*padding-left: 5px;*/
+}

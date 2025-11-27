@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<link th:href="@{/css/supportMain.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>Q & A</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<!--각 페이지마다 여기에 내용을 채우면 된다.-->
+		<div class="content">
+			
+			<div class="QnaListBox">
+				
+				<table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th>번호</th>
+                            <th style="width:50%;">제목</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="question, loop : ${questionList}" class="question-row text-center"
+                            th:onclick="|toggleAnswer(${question.id})|">
+                            <td th:text="${paging.totalElements - ((pageNum - 1) * paging.size) - loop.index}"></td>
+                            <td class="text-start">
+                                <span th:text="${question.title}"></span>
+                                <span class="badge bg-warning text-danger ms-2"
+                                      th:if="${question.answers != null and #lists.size(question.answers) > 0}"
+                                      th:text="${#lists.size(question.answers)}"></span>
+                            </td>
+                            <td th:text="${question.writer}"></td>
+                            <td th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd a HH:mm')}"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+				
+			</div>	<!--qnaListBox-->
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>

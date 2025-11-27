@@ -38,7 +38,7 @@ public class CarController {
 	private final CarService carService;
 	
 	// 페이징 설정
-	private int pageSize = 10;	// 페이지당 상품 갯수(4개씩 2줄)
+	private int pageSize = 10;	// 페이지당 상품 갯수(5개씩 2줄)
 	private int pageBlock = 5;	// 페이징되어 나타나는 숫자 링크들의 갯수
 	
 	// [1] 일반 사용자 기능	

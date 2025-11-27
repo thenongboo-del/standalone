@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<link th:href="@{/css/supportMain.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>챗봇</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<div class="content">
+			
+			
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>
