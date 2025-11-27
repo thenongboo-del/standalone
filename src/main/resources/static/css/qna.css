@@ -1,0 +1,187 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.container {
+	margin: 0;
+	padding: 0;
+	margin-left: 250px;
+	margin-top: 100px;
+	background: url(/CRMSystem/images/maincar.jpg);
+	min-height: 89vh;
+	background-position: -230px 0px;
+}
+
+h1 {
+	padding-top: 20px;
+	text-align: center;
+	color:white;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+}
+
+
+
+.table {
+	min-width: 85vh;
+	background-color: rgb(128, 128, 128);
+	text-align: center;
+	color: white;
+	
+}
+
+
+/* 헤더 */
+.table thead.table-dark {
+    background-color: #222 !important;
+    color: #ff5500 !important; /* 골드톤 글씨 */
+}
+
+.table thead th {
+    padding: 10px;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #333;
+}
+
+/* 테이블 바디 */
+.table tbody tr {
+    transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+/* 홀수 / 짝수 줄 */
+.table tbody tr:nth-child(odd) {
+    background-color: #181818; /* 약간 밝은 블랙 */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #131313;
+}
+
+/* 마우스 호버 효과 */
+.table tbody tr:hover {
+    background-color: #262626;
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+/* 셀 공통 스타일 */
+.table tbody td {
+    padding: 7px 8px;
+    border-bottom: 1px solid #333;
+}
+
+/* 제목 컬럼(왼쪽 정렬 부분) */
+.table tbody td.text-start span {
+    font-weight: 500;
+}
+
+/* 답변 개수 뱃지 */
+.badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    background-color: #ff5500 !important;
+    color: #000 !important;
+    border-radius: 6px;
+}
+
+/* 마지막 줄 아래 경계선 없애기 */
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 전체 테이블 박스 여백 */
+.QnaListBox {
+    margin-top: 10px;
+}
+
+.btnArea{
+	text-align: right;
+}
+
+.btnArea button {
+	margin-top: 10px;
+	width: 80px;
+	height: 30px;
+	color: white;
+	font-size: 1em;
+	font-weight: 700;
+	background-color: #333;
+	
+}
+
+.btnArea button:hover {
+	color:#ff5500
+}
+
+
+.searchFor{
+	height: 25px;
+	color: white;
+	background-color: #666;
+}
+
+.searchInput {
+	margin: 0 10px;
+	height: 25px;
+	color: white;
+	background-color: #666;
+	padding-top: 4px;
+}
+
+.submitBtn {
+	color: white;
+	background-color: #666;
+}
+
+
+.searchArea {
+	text-align: center;
+}
+
+
+
+/*페이징 전용 css*/
+
+.container-paging {
+	color: white;
+	display: flex;
+	width: 100%;	
+	justify-content: center;
+}
+
+.container-paging a {
+	color:rgb(255, 255, 255);
+}
+.container-paging ul{
+	display: flex;
+	list-style: none;
+}
+
+.container-paging li{
+	margin:0 10% 0 10%;
+	font-size: 1.3em;
+}
+
+.pagingNumberAndArrow {
+	margin-right: 18%;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+
+
+
+/**/
+
+
+
+
+

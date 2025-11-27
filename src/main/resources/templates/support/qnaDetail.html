@@ -1,0 +1,61 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<link th:href="@{/css/qnaDetail.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>Q & A</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<!--각 페이지마다 여기에 내용을 채우면 된다.-->
+		<div class="content">
+			
+			<div class="contentArea">
+				<div class="contentHead">
+					<div class="idAndTitle">
+						<span class="frameText">No.</span><span class="questionId" th:text="${question.id}"></span>
+						<span class="questionTitle" th:text="${question.title}"></span>
+						<span class="frameText">작성자 : </span><span class="questionWriter" th:text="${question.writer}"></span>
+						(<span class="frameText">작성일</span> : <span th:text="${question.createdAt}"></span>)
+					<!--<span th:text="${question.updateAt}"></span>-->
+					</div>
+				</div>
+				<div class="questionBtnArea">
+					<button class="toQuestionList btn" onclick="history.back()">목록</button><button class="questionModify btn">수정</button><button class="questionDelete btn">삭제</button>
+				</div>
+				<div class="contentBody">
+					<div th:text="${question.content}"></div>
+				</div>
+				<!--<div th:text="${question.updateAt}"></div>-->
+				<div class="answerArea" th:each="answers : ${question.answers}">
+					<!--여기에 리플 아이콘-->
+					<img th:src="@{/icons/reply.png}" class="replyIcon">
+					<span class="answerWriter" th:text="${answers.writer}"></span>
+					<span class="answerContent" th:text="${answers.content}"></span>
+					<span class="answerDate" th:text="${answers.createdAt}"></span>
+					<!--<span th:text="${answers.updatedAt}"></span>-->
+					<span class="answerBtnArea">
+						<button class="answerModify btn">수정</button><button class="answerDelete btn">삭제</button>
+					</span>
+				</div>
+				
+			</div>
+			
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>

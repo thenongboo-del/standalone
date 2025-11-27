@@ -15,20 +15,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class SupportService {
 	
-	private final QnaQuestionRepository qnaQestionRepository;
+	private final QnaQuestionRepository qnaQuestionRepository;
 
 	public Page<QnaQuestion> getQnaList(int pageNum, String searchFor, String keyword, int pageSize, String sortField, String sortWay) {
 		Pageable pageable = PageRequest.of(pageNum-1, pageSize, sortWay.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
 		
 		switch(searchFor) {
 		case "title" :  
-			return qnaQestionRepository.findByTitleContaining(keyword, pageable);
+			return qnaQuestionRepository.findByTitleContaining(keyword, pageable);
 		case "content" : 
-			return qnaQestionRepository.findByContentContaining(keyword, pageable);
+			return qnaQuestionRepository.findByContentContaining(keyword, pageable);
+		case "all" :
+			return qnaQuestionRepository.searchByKeyword(keyword, pageable);
 		default:
-			return qnaQestionRepository.findAll(pageable);
+			return qnaQuestionRepository.findAll(pageable);
 		}
 		
+	}
+	
+	
+	public QnaQuestion getQuestionByquestionId(Long id) {
+		return qnaQuestionRepository.findById(id).get(); 
 	}
 	
 	

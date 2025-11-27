@@ -1,0 +1,121 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.container {
+	margin: 0;
+	padding: 0;
+	margin-left: 250px;
+	margin-top: 100px;
+	background: url(/CRMSystem/images/maincar.jpg);
+	min-height: 89vh;
+	background-position: -230px 0px;
+}
+
+h1 {
+	padding-top: 20px;
+	text-align: center;
+	color:white;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+	min-width: 80vh;
+	color: white;
+}
+
+.idAndTitle {
+	height: 40px;
+}
+
+.frameText {
+	color: rgb(156, 156, 156);
+}
+
+.frameText, .questionId, .questionWriter{
+	font-size: 0.9em;
+}
+
+.questionTitle {
+	text-align: center;
+	display: inline-block;
+	min-width: 750px;
+	font-size: 1.7em;
+}
+
+
+.btnArea {
+	width: 100%;
+	display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px; /* 버튼 사이 간격 */
+}
+
+.btn {
+	
+	width: 60px;
+}
+
+
+.contentBody{
+	display: inline-block;
+	min-height: 50vh;
+	min-width: 115vh;
+	margin: 20px 30px;
+	background-color: RGBA(0, 0, 0, 0.7);
+}
+
+.questionBtnArea {
+	margin: 20px 0 0 80px;
+	min-width: 115vh;
+	background-color: RGBA(0, 0, 0, 0.7);
+}
+
+.answerContent{
+	display: inline-block;
+	min-width: 50vh;
+	margin: 0 30px;
+}
+
+.answerBtnArea {
+	margin-left: 20px;
+}
+
+.replyIcon{
+	margin-left: 50px;
+	margin-right: 10px;
+	position: relative;
+	top: 15px;	
+	width: 40px;
+	transform: scaleY(-1) scalex(-1)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

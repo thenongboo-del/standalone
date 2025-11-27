@@ -2,7 +2,7 @@
 <head>
 	<title>고객센터</title>
 	<link th:href="@{/css/aside.css}" rel="stylesheet">
-	<link th:href="@{/css/supportMain.css}" rel="stylesheet">
+	<link th:href="@{/css/qna.css}" rel="stylesheet">
 	<script th:src="@{/js/aside.js}"></script>
 </head>	
 
@@ -33,23 +33,128 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="question, loop : ${questionList}" class="question-row text-center"
-                            th:onclick="|toggleAnswer(${question.id})|">
-                            <td th:text="${paging.totalElements - ((pageNum - 1) * paging.size) - loop.index}"></td>
-                            <td class="text-start">
-                                <span th:text="${question.title}"></span>
-                                <span class="badge bg-warning text-danger ms-2"
-                                      th:if="${question.answers != null and #lists.size(question.answers) > 0}"
-                                      th:text="${#lists.size(question.answers)}"></span>
-                            </td>
-                            <td th:text="${question.writer}"></td>
-                            <td th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd a HH:mm')}"></td>
-                        </tr>
-
+	                        <tr th:each="question, loop : ${questionList}" class="question-row text-center"th:onclick="|toggleAnswer(${question.id})|">
+	                            <td th:text="${paging.totalElements - ((pageNum - 1) * paging.size) - loop.index}"></td>
+	                            <td class="text-start">
+								<a th:href="@{|/support/qna/${question.id}|}">
+	                                <span th:text="${question.title}"></span>
+								</a>
+	                                <span class="badge bg-warning text-danger ms-2"
+	                                      th:if="${question.answers != null and #lists.size(question.answers) > 0}"
+	                                      th:text="${#lists.size(question.answers)}"></span>
+	                            </td>
+	                            <td th:text="${question.writer}"></td>
+	                            <td th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd a HH:mm')}"></td>
+	                        </tr>
                     </tbody>
                 </table>
 				
+			<div class="btnArea">
+				<button>글쓰기</button>
+			</div>
+			
+			<div class="searchArea">
+				<form th:action="@{/support/search}" method="post" class="searchForm" role="search">
+				<select class="searchFor" name="searchFor">
+					<option value="all">제목+내용</option>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+				</select>
+				<input name="keyword" class="searchInput" type="search" placeholder="Search" aria-label="Search"/>
+				<button class="btn submitBtn" type="submit">검색</button>
+			</div>
+			
+			<div class="pagingArea">
+				
+				<div class="container-paging">
+
+				    <div th:if="${totalPages > 1}" class="pagingNumberAndArrow">
+				        <ul class="pagination">
+	
+				            <!-- 처음 페이지 -->
+				            <li th:classappend="${pageNum <= 1} ? 'disabled'">
+				                <a th:if="${pageNum > 1}" 
+				                   th:href="@{|/support/search/paging?pageNum=1&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   class="page-btn">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+				                    </svg>
+				                </a>
+				                <span th:if="${pageNum <= 1}" class="page-btn disabled">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+				                    </svg>
+				                </span>
+				            </li>
+	
+				            <!-- 이전 페이지 -->
+				            <li th:classappend="${pageNum <= 1} ? 'disabled'">
+				                <a th:if="${pageNum > 1}" 
+				                   th:href="@{|/support/qna/paging?pageNum=${pageNum-1}&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   class="page-btn">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+				                    </svg>
+				                </a>
+				                <span th:if="${pageNum <= 1}" class="page-btn disabled">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+				                    </svg>
+				                </span>
+				            </li>
+	
+				            <!-- 페이지 번호들 -->
+				            <li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+				                th:if="${i <= totalPages}"
+				                th:classappend="${i == pageNum} ? 'active'">
+				                <a th:href="@{|/support/qna/paging?pageNum=${i}&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   th:text="${i}" 
+				                   class="page-btn">1</a>
+				            </li>
+	
+				            <!-- 다음 페이지 -->
+				            <li th:classappend="${pageNum >= totalPages} ? 'disabled'">
+				                <a th:if="${pageNum < totalPages}" 
+				                   th:href="@{|/support/qna/paging?pageNum=${pageNum+1}&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   class="page-btn">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
+				                    </svg>
+				                </a>
+				                <span th:if="${pageNum >= totalPages}" class="page-btn disabled">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
+				                    </svg>
+				                </span>
+				            </li>
+	
+				            <!-- 마지막 페이지 -->
+				            <li th:classappend="${pageNum >= totalPages} ? 'disabled'">
+				                <a th:if="${pageNum < totalPages}" 
+				                   th:href="@{|/support/qna/paging?pageNum=${totalPages}&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   class="page-btn">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+				                    </svg>
+				                </a>
+				                <span th:if="${pageNum >= totalPages}" class="page-btn disabled">
+				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+				                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+				                    </svg>
+				                </span>
+				            </li>
+	
+				        </ul>
+				    </div>
+				</div>
+				
+			</div>
+			
+			
+			
 			</div>	<!--qnaListBox-->
+			
+			
 		</div> <!--content-->
 	</div>
 

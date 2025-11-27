@@ -6,9 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sbproject.standalone.entity.Car;
 import com.sbproject.standalone.entity.QnaQuestion;
 import com.sbproject.standalone.service.SupportService;
 
@@ -34,10 +37,10 @@ public class SupportController {
 	private int pageSize = 10;	// 페이지당 글 갯수
 	private int pageBlock = 5;	// 페이징되어 나타나는 숫자 링크들의 갯수
 	
-	@GetMapping("/paging")
+	@GetMapping("/qna/paging")
 	public String requestQnaList(
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-			@RequestParam(name = "searchFor", defaultValue = "all") String searchFor,
+			@RequestParam(name = "searchFor", defaultValue = "") String searchFor,
 			@RequestParam(name = "keyword", defaultValue = "") String keyword,
 			Model model
 			) {
@@ -76,13 +79,38 @@ public class SupportController {
 	}
 	
 	// Qna게시판 관리자만 댓글을 달 수 있다.
-	// 페이징 필요
 	@GetMapping("/qna")
 	public String requestSupportQna(Model model) {
-//		return "support/qna";
-		return requestQnaList(1, "all", null, model);
+		return requestQnaList(1, "", null, model);
 	}	
 	
+	
+	// Qna 게시판 상세페이지
+	@GetMapping("/qna/{id}")
+	public String requestCarByCarId(@PathVariable("id") Long questionId, Model model) {
+		QnaQuestion question = this.supportService.getQuestionByquestionId(questionId);
+		model.addAttribute("question", question);
+		
+		
+		//하단 슬라이더 - 추천상품 ( 여행 건강, 요리, 사랑 행복 키워드 별로 조회 해서 5건 씩 )
+//		List<Car> sliderList3 = this.carService.getCarListSlider2("detail1", car);
+//		model.addAttribute("sliderList3", sliderList3);
+		
+		return "support/qnaDetail";
+	}
+	
+	
+	
+	
+	@PostMapping("/qna/search")
+	public String requestQuestionListBySearch(
+			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+			@RequestParam(name = "searchFor", defaultValue = "") String searchFor,
+			@RequestParam(name = "keyword") String keyword, 
+			Model model
+			) {
+		return requestQnaList(pageNum, searchFor, keyword, model);
+	}
 	
 	
 	
