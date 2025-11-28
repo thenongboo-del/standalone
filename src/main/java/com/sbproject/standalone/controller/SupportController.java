@@ -3,16 +3,25 @@ package com.sbproject.standalone.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sbproject.standalone.entity.Member;
 import com.sbproject.standalone.entity.QnaQuestion;
+import com.sbproject.standalone.service.MemberService;
 import com.sbproject.standalone.service.SupportService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -23,6 +32,7 @@ import lombok.extern.java.Log;
 public class SupportController {
 	
 	private final SupportService supportService;
+	private final MemberService memberService;
 	
 
 	@GetMapping("/main")
@@ -31,7 +41,10 @@ public class SupportController {
 	}
 	
 	
-	// 페이징 설정
+	
+//-----------------------------------QNA----------------------------------------------
+	
+	// QNA 페이징 설정
 	private int pageSize = 10;	// 페이지당 글 갯수
 	private int pageBlock = 5;	// 페이징되어 나타나는 숫자 링크들의 갯수
 	
@@ -96,6 +109,75 @@ public class SupportController {
 		
 		return "support/qnaDetail";
 	}
+	
+	
+	// 질문 등록 화면
+	@GetMapping("/qna/add")
+	public String addQna(Model model) {
+		model.addAttribute("qnaQuestion", new QnaQuestion());
+		return "support/qnaAdd";
+	}
+	
+	
+	// 질문 등록 처리
+	@PostMapping("/qna/add")
+	public String addMemberPro(@Valid @ModelAttribute QnaQuestion question, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails userDetails) {
+		// 유효성 검사
+		if(bindingResult.hasErrors()) {
+			return "support/qnaAdd";
+		}
+		
+		Member member = memberService.findByMemberId(userDetails.getUsername());
+		question.setWriter(member.getName());
+		question.timeSet();
+		
+		supportService.createQuestion(question);
+		
+		return "redirect:/support/qna";
+	}
+	
+	
+		
+		@GetMapping("/qna/update")
+		public String updateQuestionView() {
+			return "/support/qnaUpdate";
+		}
+	
+	
+		// 회원정보 수정 처리
+		@PostMapping("/qna/update")
+		public String updateQuestionLogic(@ModelAttribute QnaQuestion question, BindingResult bindingResult) {
+			
+			Long id; 
+			
+			// 유효성 검사
+			if(bindingResult.hasErrors()) {
+				return "support/qnaUpdate";
+			}
+			
+			// 수정 처리
+			try {
+				QnaQuestion oldQuestion = supportService.selectQuestionById(question.getId());
+				oldQuestion.setTitle(question.getTitle());
+				oldQuestion.setContent(question.getContent());
+				oldQuestion.timeSet();
+				supportService.updateQuestion(oldQuestion);
+				
+				id = oldQuestion.getId();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				return "support/qnaUpdate";
+			}
+			
+			return "redirect:support/qna/" + id;
+		}
+	
+	
+//---------------------------------------------------------------------------------
+	
+	
 	
 	
 	

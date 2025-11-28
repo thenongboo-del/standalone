@@ -35,10 +35,8 @@
                     <tbody>
 	                        <tr th:each="question, loop : ${questionList}" class="question-row text-center"th:onclick="|toggleAnswer(${question.id})|">
 	                            <td th:text="${paging.totalElements - ((pageNum - 1) * paging.size) - loop.index}"></td>
-	                            <td class="text-start">
-								<a th:href="@{|/support/qna/${question.id}|}">
+	                            <td class="text-start" th:onclick="|location.href='/CRMSystem/support/qna/${question.id}'|">
 	                                <span th:text="${question.title}"></span>
-								</a>
 	                                <span class="badge bg-warning text-danger ms-2"
 	                                      th:if="${question.answers != null and #lists.size(question.answers) > 0}"
 	                                      th:text="${#lists.size(question.answers)}"></span>
@@ -50,7 +48,18 @@
                 </table>
 				
 			<div class="btnArea">
-				<button>글쓰기</button>
+				<!--로그인전-->
+				<div sec:authorize="isAnonymous()">
+					<a th:href="|javascript:alert('로그인 후 이용해주세요')|">
+						<button>글쓰기</button>
+					</a>
+				</div>
+				<!--로그인후-->
+				<div sec:authorize="isAuthenticated()">
+					<a th:href="@{/support/qna/add}">
+						<button>글쓰기</button>
+					</a>
+				</div>
 			</div>
 			
 			<div class="searchArea">

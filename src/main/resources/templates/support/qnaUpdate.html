@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<link th:href="@{/css/qnaDetail.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>Q & A(게시글수정)</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<!--각 페이지마다 여기에 내용을 채우면 된다.-->
+		<div class="content">
+			
+			
+			
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>

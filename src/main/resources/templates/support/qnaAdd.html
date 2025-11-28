@@ -1,0 +1,65 @@
+<html>
+<head>
+	<title>고객센터</title>
+	<link th:href="@{/css/aside.css}" rel="stylesheet">
+	<script th:src="@{/js/aside.js}"></script>
+	
+	<link th:href="@{/css/qnaAdd.css}" rel="stylesheet">
+</head>	
+
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+	<div class="h1Area">
+		<h1>Q & A(질문작성)</h1>
+	</div>
+	<div class="asideAndContent">
+		<div class="asideArea">
+			<th:block th:replace="~{support/supportAside.html}"></th:block>
+		</div>
+		
+		<!--각 페이지마다 여기에 내용을 채우면 된다.-->
+		<div class="content">
+			<div class="contentArea">
+				<form th:object="${qnaQuestion}" th:action="@{/support/qna/add}" method="post" class="signup-form" id="qnaAddForm">
+					
+					<!--글 제목-->
+					<div class="titleArea">
+						<div class="alertArea">
+							<p class="text-danger" th:errors="*{title}"></p>	
+						</div>
+						<div class="titleBox">
+				            <input type="text" id="title" name="title" class="title" placeholder="글 제목을 입력해주세요" th:field="*{title}" autofocus>
+						</div>
+					</div>
+					
+					<!--글 내용-->
+					<div class="contentArea">
+						<div class="alertArea">
+							<p class="text-danger" th:errors="*{content}"></p>	
+						</div>
+						<div class="contentBox">
+				            <textarea id="content" name="content" class="content" placeholder="글 내용을 입력해주세요" th:field="*{content}" autofocus></textarea>
+						</div>
+					</div>
+					
+					<th:block th:if="*{id} != null">
+					    <input type="hidden" th:field="*{id}">
+					</th:block>
+					
+				</form>
+				<div class="btnArea">
+					<button type="submit" form="qnaAddForm">등록</button>
+					<button onclick="history.back()">목록으로</button>
+				</div>
+				
+			</div>
+			
+		</div> <!--content-->
+	</div>
+
+
+</div> <!--container-->
+</body>
+</html>

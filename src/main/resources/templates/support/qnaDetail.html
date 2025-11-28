@@ -32,7 +32,9 @@
 					</div>
 				</div>
 				<div class="questionBtnArea">
-					<button class="toQuestionList btn" onclick="history.back()">목록</button><button class="questionModify btn">수정</button><button class="questionDelete btn">삭제</button>
+					<button class="toQuestionList btn" onclick="history.back()">목록</button>
+					<a th:href="@{/support/qna/update}"><button class="questionModify btn">수정</button></a>
+					<a href="#"><button class="questionDelete btn">삭제</button></a>
 				</div>
 				<div class="contentBody">
 					<div th:text="${question.content}"></div>

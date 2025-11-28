@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sbproject.standalone.entity.QnaQuestion;
+import com.sbproject.standalone.repository.QnaAnswerRepository;
 import com.sbproject.standalone.repository.QnaQuestionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class SupportService {
-	
+
 	private final QnaQuestionRepository qnaQuestionRepository;
 
 	public Page<QnaQuestion> getQnaList(int pageNum, String searchFor, String keyword, int pageSize, String sortField, String sortWay) {
@@ -38,6 +39,18 @@ public class SupportService {
 		return qnaQuestionRepository.findById(id).get(); 
 	}
 	
+	
+	public void createQuestion(QnaQuestion question) {
+		qnaQuestionRepository.save(question);
+	}
+	
+	public QnaQuestion selectQuestionById(Long id) {
+		return qnaQuestionRepository.findById(id).get();
+	}
+	
+	public void updateQuestion(QnaQuestion question) {
+		qnaQuestionRepository.save(question);
+	}
 	
 	
 }
