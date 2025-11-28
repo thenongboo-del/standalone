@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sbproject.standalone.entity.Car;
 import com.sbproject.standalone.entity.QnaQuestion;
 import com.sbproject.standalone.service.SupportService;
 
@@ -102,7 +100,7 @@ public class SupportController {
 	
 	
 	
-	@PostMapping("/qna/search")
+	@GetMapping("/qna/search")
 	public String requestQuestionListBySearch(
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
 			@RequestParam(name = "searchFor", defaultValue = "") String searchFor,

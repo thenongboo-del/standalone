@@ -54,7 +54,7 @@
 			</div>
 			
 			<div class="searchArea">
-				<form th:action="@{/support/search}" method="post" class="searchForm" role="search">
+				<form th:action="@{/support/qna/search}" method="get" class="searchForm" role="search">
 				<select class="searchFor" name="searchFor">
 					<option value="all">제목+내용</option>
 					<option value="title">제목</option>
@@ -74,7 +74,7 @@
 				            <!-- 처음 페이지 -->
 				            <li th:classappend="${pageNum <= 1} ? 'disabled'">
 				                <a th:if="${pageNum > 1}" 
-				                   th:href="@{|/support/search/paging?pageNum=1&searchFor=${searchFor}&keyword=${keyword}|}" 
+				                   th:href="@{|/support/qna/paging?pageNum=1&searchFor=${searchFor}&keyword=${keyword}|}" 
 				                   class="page-btn">
 				                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
 				                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
