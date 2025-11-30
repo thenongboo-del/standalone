@@ -34,23 +34,31 @@ public class SupportService {
 		
 	}
 	
-	
+//	질문 id로 질문 선택
 	public QnaQuestion getQuestionByquestionId(Long id) {
 		return qnaQuestionRepository.findById(id).get(); 
 	}
 	
-	
+//	질문 등록
 	public void createQuestion(QnaQuestion question) {
 		qnaQuestionRepository.save(question);
 	}
 	
+//	질문 1건 조회
 	public QnaQuestion selectQuestionById(Long id) {
 		return qnaQuestionRepository.findById(id).get();
 	}
 	
+//	질문 수정
 	public void updateQuestion(QnaQuestion question) {
 		qnaQuestionRepository.save(question);
 	}
+	
+//	질문 삭제
+	public void removeQuestionById(Long id) {
+		qnaQuestionRepository.deleteById(id);
+	}
+	
 	
 	
 }

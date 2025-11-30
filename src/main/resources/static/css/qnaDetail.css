@@ -72,8 +72,12 @@ h1 {
 	background-color: RGBA(0, 0, 0, 0.7);
 }
 
+.questionContent{
+	padding: 30px;
+}
+
 .questionBtnArea {
-	margin: 20px 0 0 80px;
+	margin: 20px 150px 0 80px;
 	min-width: 111vh;
 	text-align: right;
 }
@@ -99,7 +103,9 @@ h1 {
 
 
 
-
+#deleteForm {
+	display: inline-block;
+}
 
 
 

@@ -138,18 +138,19 @@ public class SupportController {
 	}
 	
 	
-		
-		@GetMapping("/qna/update")
-		public String updateQuestionView() {
-			return "/support/qnaUpdate";
+		// 질문 수정 폼
+		@GetMapping("/qna/update/{id}")
+		public String updateQuestionView(@PathVariable("id") Long questionId, Model model) {
+			QnaQuestion question = this.supportService.getQuestionByquestionId(questionId);
+			model.addAttribute("question", question);
+			return "support/qnaUpdate";
 		}
 	
+		
 	
-		// 회원정보 수정 처리
+		// 질문 수정 처리
 		@PostMapping("/qna/update")
 		public String updateQuestionLogic(@ModelAttribute QnaQuestion question, BindingResult bindingResult) {
-			
-			Long id; 
 			
 			// 유효성 검사
 			if(bindingResult.hasErrors()) {
@@ -161,22 +162,33 @@ public class SupportController {
 				QnaQuestion oldQuestion = supportService.selectQuestionById(question.getId());
 				oldQuestion.setTitle(question.getTitle());
 				oldQuestion.setContent(question.getContent());
-				oldQuestion.timeSet();
+				oldQuestion.preUpdate();
 				supportService.updateQuestion(oldQuestion);
 				
-				id = oldQuestion.getId();
+				return "redirect:/support/qna/" + oldQuestion.getId();
 				
 			} catch(Exception e) {
 				e.printStackTrace();
 				return "support/qnaUpdate";
 			}
 			
-			return "redirect:support/qna/" + id;
 		}
 	
 	
 //---------------------------------------------------------------------------------
 	
+		
+	///qna 삭제
+	@PostMapping("/qna/delete/{id}")
+	public String deleteQuestionLogic(@PathVariable("id") Long questionId, Model model) {
+		// 나중에 이걸로 작성자 비교후 지워야함
+		supportService.getQuestionByquestionId(questionId);
+		
+		// 삭제하는 메서드
+		supportService.removeQuestionById(questionId);
+		
+		return "redirect:/support/qna";
+	}
 	
 	
 	

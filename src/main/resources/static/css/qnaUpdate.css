@@ -66,14 +66,18 @@ h1 {
 
 .contentBody{
 	display: inline-block;
-	min-height: 50vh;
-	min-width: 115vh;
-	margin: 20px 30px;
 	background-color: RGBA(0, 0, 0, 0.7);
 }
 
+.questionContent{
+	min-height: 50vh;
+	min-width: 115vh;
+	margin: 20px 30px;
+	
+}
+
 .questionBtnArea {
-	margin: 20px 0 0 80px;
+	margin: 20px 30px 0 0;
 	min-width: 111vh;
 	text-align: right;
 }

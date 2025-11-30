@@ -4,6 +4,7 @@
 	<link th:href="@{/css/aside.css}" rel="stylesheet">
 	<link th:href="@{/css/qnaDetail.css}" rel="stylesheet">
 	<script th:src="@{/js/aside.js}"></script>
+	<script th:src="@{/js/qnaDetail.js}"></script>
 </head>	
 
 <body>
@@ -27,17 +28,22 @@
 						<span class="frameText">No.</span><span class="questionId" th:text="${question.id}"></span>
 						<span class="questionTitle" th:text="${question.title}"></span>
 						<span class="frameText">작성자 : </span><span class="questionWriter" th:text="${question.writer}"></span>
-						(<span class="frameText">작성일</span> : <span th:text="${question.createdAt}"></span>)
+						<!--(<span class="frameText">작성일</span> : <span th:text="${question.createdAt}"></span>)-->
+						(<span th:if="${question.updatedAt} == null" class="frameText">작성일 : </span> <span th:if="${question.updatedAt} == null" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd')}" ></span>
+                        <span th:if="${question.updatedAt} != null" class="frameText">수정일 : </span> <span th:if="${question.updatedAt != null}" th:text="${#temporals.format(question.updatedAt, 'yyyy-MM-dd')}"></span> )
 					<!--<span th:text="${question.updateAt}"></span>-->
 					</div>
 				</div>
 				<div class="questionBtnArea">
 					<button class="toQuestionList btn" onclick="history.back()">목록</button>
-					<a th:href="@{/support/qna/update}"><button class="questionModify btn">수정</button></a>
-					<a href="#"><button class="questionDelete btn">삭제</button></a>
+					<a th:href="@{|/support/qna/update/${question.id}|}"><button class="questionModify btn">수정</button></a>
+					<form id="deleteForm" method="post">
+						<button class="questionDelete btn" th:onclick="|removeQuestion(${question.id})|">삭제</button>
+					</form>
+					<!--<a th:href="@{|/support/qna/delete/${question.id}|}"><button class="questionDelete btn">삭제</button></a>-->
 				</div>
 				<div class="contentBody">
-					<div th:text="${question.content}"></div>
+					<div th:text="${question.content}" class="questionContent"></div>
 				</div>
 				<!--<div th:text="${question.updateAt}"></div>-->
 				<div class="answerArea" th:each="answers : ${question.answers}">
