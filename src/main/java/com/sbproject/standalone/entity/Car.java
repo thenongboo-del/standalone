@@ -53,6 +53,10 @@ public class Car {
 	private String carId;
 	
 	
+	// 재고
+	private Long stock;
+	
+	
 	@NotBlank(message = "차량명은 필수 입력 사항입니다.")
 	private String name;
 	
@@ -80,7 +84,7 @@ public class Car {
 	
 	// 앞면
 	@Column(columnDefinition = "varchar(30) default 'no_image.jpg'")
-	private String fileName;  // 도서이미지의 파일명
+	private String fileName;  // 이미지의 파일명
 	
 	
 	

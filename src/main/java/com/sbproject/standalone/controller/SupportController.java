@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sbproject.standalone.entity.Faq;
 import com.sbproject.standalone.entity.Member;
+import com.sbproject.standalone.entity.QnaAnswer;
 import com.sbproject.standalone.entity.QnaQuestion;
 import com.sbproject.standalone.service.MemberService;
 import com.sbproject.standalone.service.SupportService;
@@ -129,7 +131,7 @@ public class SupportController {
 		}
 		
 		Member member = memberService.findByMemberId(userDetails.getUsername());
-		question.setWriter(member.getName());
+		question.setWriter(member.getMemberId());
 		question.timeSet();
 		
 		supportService.createQuestion(question);
@@ -175,7 +177,6 @@ public class SupportController {
 		}
 	
 	
-//---------------------------------------------------------------------------------
 	
 		
 	///qna 삭제
@@ -191,6 +192,62 @@ public class SupportController {
 	}
 	
 	
+//---------------------------------------------------------------------------------
+
+	// 댓글 쓰기
+	@PostMapping("/qna/answer/insert")
+	public String insertAnswer(QnaAnswer answer, @AuthenticationPrincipal  UserDetails userDetails) {
+		
+		
+		Member member = memberService.findByMemberId(userDetails.getUsername());
+		
+		answer.setWriter(member.getName());
+		answer.prePersist();
+		
+		supportService.saveAnswer(answer);
+		
+		return "redirect:/support/qna/" + answer.getQuestion().getId();
+	}
+	
+	
+	
+	// 댓글 수정 
+	// 댓글 수정 (GET 방식)
+	// 댓글 수정 (GET 방식)
+    @GetMapping("/qna/answer/update")
+    public String updateAnswer(@RequestParam("answerId") Long answerId, 
+                               @RequestParam("content") String content) {
+        
+        System.out.println("DEBUG: 수정 요청 들어옴 - ID: " + answerId); // 로그 확인용
+        
+        // 1. 댓글 조회
+        QnaAnswer answer = supportService.findByAnswerId(answerId).get();
+        
+        // 2. 내용 변경
+        answer.setContent(content);
+        answer.preUpdate(); 
+        
+        // 3. 저장
+        supportService.saveAnswer(answer);
+
+        // 4. 리다이렉트
+        return "redirect:/support/qna/" + answer.getQuestion().getId();
+    }
+
+	
+	// 삭제
+    @GetMapping("/qna/answer/delete")
+    public String deleteAnswer(@RequestParam("answerId") Long answerId) {
+    	
+    	QnaAnswer answer =  supportService.findByAnswerId(answerId).get();
+    	Long questionId = answer.getQuestion().getId();
+        // service 호출해서 DB 삭제
+    	supportService.deleteAnswer(answerId);
+
+        // 리다이렉트할 페이지
+        return "redirect:/support/qna/"  + questionId; // 필요에 따라 변경
+    }
+
 	
 	
 	
@@ -204,15 +261,39 @@ public class SupportController {
 		return requestQnaList(pageNum, searchFor, keyword, model);
 	}
 	
-	
+//------------------------------------------------------------------------------------------------------------------	
 	
 	
 	
 	
 	@GetMapping("/faq")
-	public String requestSupportFaq() {
+	public String requestSupportFaq(
+			@RequestParam(name = "searchFor", defaultValue = "") String searchFor,
+			@RequestParam(name = "keyword", defaultValue="") String keyword, 
+			Model model
+			) {
+		List<Faq> faqList = supportService.getFaqList(searchFor, keyword);
+		model.addAttribute("faqList", faqList);
+		
 		return "support/faq";
 	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/find")
 	public String requestSupportFind() {

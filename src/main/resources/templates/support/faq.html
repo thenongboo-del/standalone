@@ -3,7 +3,9 @@
 	<title>고객센터</title>
 	<link th:href="@{/css/aside.css}" rel="stylesheet">
 	<link th:href="@{/css/supportMain.css}" rel="stylesheet">
+	<link th:href="@{/css/faq.css}" rel="stylesheet">
 	<script th:src="@{/js/aside.js}"></script>
+	<script th:src="@{/js/faq.js}"></script>
 </head>	
 
 <body>
@@ -20,6 +22,32 @@
 		
 		<div class="content">
 			
+			<div class="faqList">
+
+			    <div th:each="faq : ${faqList}" class="faqItem">
+
+			      <!-- 질문 버튼: id와 aria-controls는 리터럴 표기법으로 안전하게 생성 -->
+			      <button class="faqQuestion" type="button"
+			              aria-expanded="false"
+			              th:id="|q-${faq.id}|"
+			              th:attr="aria-controls=|answer-${faq.id}|">
+			        <span th:text="${faq.faqQuestion}">질문 제목</span>
+			        <span class="faqIcon" aria-hidden="true">+</span>
+			      </button>
+
+			      <!-- 답변 영역: id는 리터럴 표기법 사용, 내용은 HTML 포함 가능하게 th:utext -->
+			      <div class="faqAnswer"
+			           hidden
+			           th:id="|answer-${faq.id}|"
+			           th:attr="aria-labelledby=|q-${faq.id}|">
+			        <div class="faqAnswerInner" th:utext="${faq.faqAnswer}">
+			          답변 내용
+			        </div>
+			      </div>
+
+			    </div>
+
+			  </div>
 			
 		</div> <!--content-->
 	</div>

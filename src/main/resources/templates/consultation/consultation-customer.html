@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매상담 · 시승신청</title>
+    <link th:href="@{/css/consultation-customer.css}" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+    <div class="containerBox">
+
+        <!-- 구매상담 영역 (가로 프로세스 유지) -->
+        <div class="consultationBuyBox consultation-box">
+            <div class="outlineBox">
+                <h1 class="headerInBox">구매상담</h1>
+                <div class="iconBox">
+                    <div class="imgAndTag active"><span><img th:src="@{/icons/1st.png}"></span>상담 신청</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/2nd.png}"></span>상담 딜러 배정 대기</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/3th.png}"></span>상담 일정 지정</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/4th.png}"></span>상담 진행</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/5th.png}"></span>상담 종료</div>
+                </div>
+                <button class="apply-btn" onclick="openConsult('buy')">구매상담 신청하기</button>
+            </div>
+        </div>
+
+        <!-- 시승신청 영역 (가로 프로세스 유지) -->
+        <div class="consultationTestDriveBox consultation-box">
+            <div class="outlineBox">
+                <h1 class="headerInBox">시승신청</h1>
+                <div class="iconBox">
+                    <div class="imgAndTag active"><span><img th:src="@{/icons/drive-1.png}"></span>시승 신청</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/drive-2.png}"></span>배차 대기</div>
+                    <div class="imgAndTag"><span><img th:src="@{/icons/drive-3.png}"></span>시승 진행</div>
+                </div>
+                <button class="apply-btn" onclick="openConsult('testdrive')">시승신청 하기</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script th:src="@{/js/consultation-customer.js}"></script>
+</body>
+</html>

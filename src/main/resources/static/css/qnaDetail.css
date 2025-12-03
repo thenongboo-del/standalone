@@ -108,8 +108,27 @@ h1 {
 }
 
 
+.answerModify {
+	
+}
 
 
+.answerDelete {
+	
+}
+
+
+.addAnser {
+	 min-width: 70vh;
+	 margin: 0 30px;
+}
+
+.answerEditTextarea{
+	 min-width: 50vh;
+	 height: 21px;
+	 resize: none;
+	 
+}
 
 
 

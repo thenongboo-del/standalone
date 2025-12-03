@@ -3,6 +3,8 @@ package com.sbproject.standalone.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
@@ -105,9 +108,6 @@ public class Member {
 	@Column(columnDefinition = "datetime default now()")
 	private LocalDateTime regDate;
 	
-	// 고객 등급 = 신규 / 일반 / VIP / 이탈 가능
-//	@Column(columnDefinition = "varchar(20) default '신규'")
-//	private String cSegment;
 	
 	@Column(columnDefinition = "char(2)")
 	private String gender;
@@ -147,6 +147,16 @@ public class Member {
 		int ages = Period.between(this.getBirthDay(), LocalDate.now()).getYears();		// 생일과 현재 날짜의 기간을 구해서 년도로 변환해서 나이를 구한다.
 		this.setAge(ages);
 	}
+	
+	
+	/* 딜러전용 */
+	// 입사일
+    private LocalDate hireDate = LocalDate.now();
+
+    // 상담 리스트
+    @OneToMany(mappedBy = "dealer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Consultation> consultList = new ArrayList<>();
+	
 	
 	
 	

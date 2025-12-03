@@ -36,25 +36,42 @@
 				</div>
 				<div class="questionBtnArea">
 					<button class="toQuestionList btn" onclick="history.back()">목록</button>
-					<a th:href="@{|/support/qna/update/${question.id}|}"><button class="questionModify btn">수정</button></a>
-					<form id="deleteForm" method="post">
-						<button class="questionDelete btn" th:onclick="|removeQuestion(${question.id})|">삭제</button>
-					</form>
+					<span th:if="${question.writer == #authentication.getPrincipal().getUsername()}">
+						<a th:href="@{|/support/qna/update/${question.id}|}"><button class="questionModify btn">수정</button></a>
+						<form id="deleteForm" method="post">
+							<button class="questionDelete btn" th:onclick="|removeQuestion(${question.id})|">삭제</button>
+						</form>
+					</span>
 					<!--<a th:href="@{|/support/qna/delete/${question.id}|}"><button class="questionDelete btn">삭제</button></a>-->
 				</div>
 				<div class="contentBody">
 					<div th:text="${question.content}" class="questionContent"></div>
 				</div>
-				<!--<div th:text="${question.updateAt}"></div>-->
-				<div class="answerArea" th:each="answers : ${question.answers}">
+				<!--리플 입력-->
+				<div sec:authorize="hasRole('ROLE_DEALER')">
+					<div>
+						<span><!--여기에 관리자 아이디--></span>
+						<form th:object="${qnaAnswer}" method="post" th:action="@{/support/qna/answer/insert}">
+							<img th:src="@{/icons/reply.png}" class="replyIcon">
+							<input type="hidden" th:value="${question.id}" name="question.id">
+							<input type="text" name="content" class="addAnser">
+							<button type="submit">등록</button>
+						</form>
+					</div>
+				</div>
+				
+				<div class="answerArea" th:each="answers : ${question.answers}" th:data-answer-id="${answers.id}">
 					<!--여기에 리플 아이콘-->
 					<img th:src="@{/icons/reply.png}" class="replyIcon">
 					<span class="answerWriter" th:text="${answers.writer}"></span>
 					<span class="answerContent" th:text="${answers.content}"></span>
 					<span class="answerDate" th:text="${answers.createdAt}"></span>
 					<!--<span th:text="${answers.updatedAt}"></span>-->
-					<span class="answerBtnArea">
-						<button class="answerModify btn">수정</button><button class="answerDelete btn">삭제</button>
+					<span class="answerBtnArea" sec:authorize="hasRole('ROLE_DEALER')">
+<!--						<a th:href="@{/support/qna/answer/update}"><button class="answerModify btn">수정</button></a>
+						<a th:href="@{/support/qna/answer/delete}"><button class="answerDelete btn">삭제</button></a>-->
+						<button class="answerModify btn">수정</button>
+						<button class="answerDelete btn">삭제</button>
 					</span>
 				</div>
 				

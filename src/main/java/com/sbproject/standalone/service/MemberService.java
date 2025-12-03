@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.sbproject.standalone.entity.Member;
+import com.sbproject.standalone.entity.Notice;
 import com.sbproject.standalone.repository.MemberRepository;
+import com.sbproject.standalone.repository.NoticeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberService implements UserDetailsService {
 	
 	private final MemberRepository memberRepository;
+	
+	private final NoticeRepository noticeRepository;
 	
 	// ★★★★★
 	// 로그인할 때 회원 인증에 사용되는 메서드
@@ -75,5 +79,16 @@ public class MemberService implements UserDetailsService {
 	public List<Member> selectAllMember() {
 		return memberRepository.findAll();
 	}
+	
+	// Role이 USER인 유저 조회
+	public List<Member> selectAllCustomer() {
+		return memberRepository.selectForUser();
+	}
+	
+	// 모든 공지사항 조회
+	public List<Notice> selectAllNotice() {
+		return noticeRepository.findAll();
+	}
+	
 	
 }

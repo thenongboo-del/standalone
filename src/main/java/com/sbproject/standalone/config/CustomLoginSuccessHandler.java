@@ -27,9 +27,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		for(GrantedAuthority authority : authorities) {
 			if(authority.getAuthority().equals("ROLE_ADMIN")) {			// admin
-				redirectUrl = "/admin";
+				redirectUrl = "/admin/main";
 			} else if(authority.getAuthority().equals("ROLE_DEALER")) {			// dealer
-				redirectUrl = "/dealer";
+				redirectUrl = "/dealer/main";
 			} else {		// normal user
 				redirectUrl = "/";
 			}

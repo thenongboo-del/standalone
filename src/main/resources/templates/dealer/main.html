@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/dealer/main.css}">
+    
+</head>
+<body>
+<div class="container">
+    <aside class="sidebar">
+        <h2>Dealer Menu</h2>
+        <ul>
+            <li><a href="#" class="active" data-tab="main">메인</a></li>
+            <li><a href="#" data-tab="notice">공지사항</a></li>
+            <li><a href="#" data-tab="schedule">일정</a></li>
+            <li><a href="#" data-tab="chat">상담</a></li>
+            <li><a href="#" data-tab="customer">고객리스트</a></li>
+            <li><a href="#" data-tab="stock">재고확인</a></li>
+            <li><a href="#" data-tab="addDealer">신규사원 추가</a></li>
+        </ul>
+        <a th:href="@{/}"><button>메인화면으로</button></a>
+        <a th:href="@{/logout}"><button>로그아웃</button></a>
+    </aside>
+
+    <main class="content">
+        <!-- 메인 대시보드 -->
+        <section id="main" class="tab-content active">
+            <h1>Dealer Dashboard</h1>
+            <div class="cards">
+                <div class="card">공지사항: <span th:text="${noticeCount}">0</span></div>
+                <div class="card">일정: <span th:text="${scheduleCount}">0</span></div>
+                <div class="card">상담: <span th:text="${chatCount}">0</span></div>
+                <div class="card">고객: <span th:text="${customerCount}">0</span></div>
+                <div class="card">재고: <span th:text="${stockCount}">0</span></div>
+            </div>
+        </section>
+
+        <!-- 다른 탭 -->
+        <section id="notice" class="tab-content">
+            <h2>공지사항</h2>
+			<div class="notice-list">
+	        <div class="notice-item" th:each="notice : ${notice}">
+	            
+	            <!-- 제목 행 -->
+	            <div class="notice-header">
+	                <span class="notice-id" th:text="${notice.id}"></span>
+	                <span class="notice-title" th:text="${notice.title}"></span>
+	                <span class="notice-date" th:text="${notice.createdDate}"></span>
+	            </div>
+
+	            <!-- 본문 -->
+	            <div class="notice-content">
+	                <span th:text="${notice.content}"></span>
+	            </div>
+
+	        </div>
+	    </div>
+        </section>
+
+        <section id="schedule" class="tab-content">
+            <h2>일정</h2>
+            <p>일정 내용을 여기에 표시합니다.</p>
+        </section>
+
+        <section id="chat" class="tab-content">
+            <h2>상담</h2>
+            <p>상담 내용을 여기에 표시합니다.</p>
+        </section>
+
+		<section id="customer" class="tab-content">
+		  <h2>고객리스트</h2>
+			<div class="serchBox">
+			  <!-- 검색바 -->
+			  <div class="customer-search">
+			    <input id="customerSearch" type="search" placeholder="이름 / 전화번호 / 이메일로 검색..." />
+			    <button id="clearSearch" type="button">지우기</button>
+			  </div>
+			</div>
+	
+		  <div class="customerListBox">
+			  <!-- 리스트 -->
+			  <div class="customer-list">
+			    <!-- 반복 -->
+				<div th:each="customer : ${customerList}" class="customer-card"
+				     th:attr="data-name=${customer.name}, 
+				              data-phone=${customer.phone}, 
+				              data-memberId=${customer.memberId}, 
+				              data-email=${customer.email}">
+			      
+			      <!-- 기본 보이는 행 -->
+			      <div class="customer-summary" role="button" tabindex="0">
+			        <div class="summary-left">
+			          <div class="cust-name" th:text="${customer.name}">이름</div>
+			          <div class="cust-meta">
+			            <span class="cust-age" th:text="${customer.age}">나이</span>
+			            <span class="cust-gender" th:text="${customer.gender}">성별</span>
+			          </div>
+			        </div>
+			        <div class="summary-right">
+			          <div class="cust-phone" th:text="${customer.phone}">010-0000-0000</div>
+			          <div class="caret">▾</div>
+			        </div>
+			      </div>
+	
+			      <!-- 아코디언 상세 (초기 숨김) -->
+			      <div class="customer-details" aria-hidden="true">
+			        <div class="detail-row"><strong>가입일:</strong> <span th:text="${customer.regDate}">memberId</span></div>
+			        <div class="detail-row"><strong>생일:</strong> <span th:text="${customer.birthDay}">memberId</span></div>
+			        <div class="detail-row"><strong>아이디:</strong> <span th:text="${customer.memberId}">memberId</span></div>
+			        <div class="detail-row"><strong>이메일:</strong> <span th:text="${customer.email}">email</span></div>
+			        <div class="detail-row"><strong>롤:</strong> <span th:text="${customer.role}">email</span></div>
+			      </div>
+			    </div>
+			    <!-- 반복 끝 -->
+			  </div>
+	
+			  <!-- 페이징 자리(필요하면 사용) -->
+			  <div class="customer-footer">
+			    <!-- 페이징/요약을 여기 넣을 수 있음 -->
+			  </div>
+		  </div>
+		</section>
+
+		<!--  자동차 재고  -->
+		<!-- Stock 섹션 (교체할 부분) -->
+		<section id="stock" class="tab-content">
+		    <h2>재고확인</h2>
+
+		    <!-- 검색바 -->
+		    <div class="stock-search">
+		        <input id="stockSearch" type="search" placeholder="모델명 / 제조사 / 카테고리로 검색..." />
+		        <button id="clearStockSearch" type="button">지우기</button>
+		    </div>
+
+		    <!-- 요약 차트 (Chart.js 사용) -->
+		    <div class="stock-overview">
+		        <div class="chart-card">
+		            <h3>재고 요약</h3>
+		            <canvas id="stockChart" width="400" height="160"></canvas>
+		        </div>
+		        <div class="summary-cards">
+		            <div class="summary-card">
+		                <div class="label">총 모델수</div>
+		                <div class="value" id="totalModels">0</div>
+		            </div>
+		            <div class="summary-card">
+		                <div class="label">총 재고수</div>
+		                <div class="value" id="totalStock">0</div>
+		            </div>
+		            <div class="summary-card">
+		                <div class="label">품절 모델</div>
+		                <div class="value" id="outOfStockCount">0</div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <!-- 차량 리스트 (검색/필터 적용 대상) -->
+		    <div class="stockContainer">
+		        <div class="carListBox">
+		            <div class="carList" th:each="car : ${carList}" data-name="${car.name}"
+		                 data-company="${car.company}" data-category="${car.category}">
+		                <div class="car-item">
+		                    <div class="car-thumb">
+		                        <img th:src="|/CRMSystem/images/${car.fileName}|" alt="car image">
+		                    </div>
+		                    <div class="car-info">
+		                        <div class="car-title">
+		                            <span class="car-id" th:text="${car.id}"></span>
+		                            <span class="car-name" th:text="${car.name}"></span>
+		                        </div>
+		                        <div class="car-meta">
+		                            <span class="car-company" th:text="${car.company}"></span>
+		                            <span class="car-category" th:text="${car.category}"></span>
+		                        </div>
+		                    </div>
+		                    <div class="car-stock">
+		                        <div class="stock-number" th:text="${car.stock}">0</div>
+		                        <a th:href="@{|/cars/car/${car.carId}|}" class="detail-btn">상세</a>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+
+
+		
+        <!-- 신규사원 추가 탭 -->
+        <section id="addDealer" class="tab-content">
+            <h2>신규사원추가</h2>
+            <div class="container">
+                <div class="content">
+					<form th:object="${member}" th:action="@{/dealer/addDealer}" method="post" class="signup-form">
+
+						<div class="div-labelAndAlert">
+							<div class="validation-alert">
+					            <label for="memberId">아이디</label>
+								<p class="text-danger" th:errors="*{memberId}"></p>	
+							</div>
+						</div>
+						<div class="idBox">
+				            <input type="text" id="memberId" name="memberId" class="memberId" placeholder="아이디 입력" th:field="*{memberId}" autofocus required>
+							<!--<button class="checkId">중복 체크</button>-->
+						</div>
+						<div class="id-info">
+							<span>회원 ID는 숫자, 영문자를 포함하여 8~16글자 사이로 입력하세요.</span>
+						</div>
+						<div class="div-labelAndAlert">
+							<div class="validation-alert">
+				            	<label for="email">이메일</labe>
+								<p class="text-danger" th:errors="*{email}"></p>	
+							</div>
+						</div>
+			            <input type="email" id="email" name="email" placeholder="이메일 입력" th:field="*{email}" required>
+			            
+						<div class="div-labelAndAlert">
+							<div class="validation-alert">
+				            	<label for="password">비밀번호</label>
+								<p class="text-danger" th:errors="*{password}"></p>	
+							</div>
+						</div>
+			            <input type="password" id="password" name="password" placeholder="비밀번호 입력" th:field="*{password}" required>
+			            
+						<div class="div-labelAndAlert">
+							<div class="validation-alert">
+				            	<label for="password2">비밀번호 확인</label>
+								<p class="text-danger" th:errors="*{password2}"></p>	
+							</div>
+						</div>
+			            <input type="password" id="password2" name="Password2" placeholder="비밀번호 확인" th:field="*{password2}" required>
+			            <div class="div-nameAndBirthDay">
+							<div>
+								<div class="nameArea">
+									<label for="name">이름</label>
+						            <input type="text" id="name" name="name" placeholder="이름 입력" th:field="*{name}" required>
+								</div>
+							</div>
+							<div>
+								<div class="birthDayArea">
+									<label for="birthDay" class="label-birthDay">생년월일</label>
+						            <input type="date" id="birthDay" name="birthDay" placeholder="생년월일 입력" th:field="*{birthDay}" required>
+								</div>
+							</div>
+						</div>
+						
+						<div class="div-labelAndAlert">
+							<div class="validation-alert">
+								<label for="phone">핸드폰</label>
+								<p class="text-danger" th:errors="*{phone}"></p>	
+							</div>
+						</div>
+			            <input type="text" id="phone" name="phone" placeholder="핸드폰 입력" th:field="*{phone}" required>
+									
+						<label for="gender">성별</label>
+						<div class="col-sm-3">
+							<span><input type="radio" name="gender" id="g1" value="남성" checked> <label for="g1">남성</label></span>
+							<span><input type="radio" name="gender" id="g2" value="여성" class="ms-3"> <label for="g2">여성</label></span>
+						</div>
+						
+			            <button type="submit">가입하기</button>
+						
+			        </form>
+                    
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script th:src="@{/js/dealer/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</body>
+</html>

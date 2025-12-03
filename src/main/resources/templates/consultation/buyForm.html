@@ -1,0 +1,82 @@
+<html>
+	
+<head>
+	<title>구매상담 신청</title>
+		
+</head>
+
+<body>
+<div class="container">
+	
+	<div class="formBox">
+		<div class="innerFormBox">
+			<div>
+				<span>신청인 ID : </span>[[${#authentication.getPrincipal().getUsername()}]]
+			</div>
+			<form th:object="${consultation}" th:action="@{/consultation/buy/from}" method="post">
+				<input type="hidden" name="type" th:value="buy" th:field="*{type}">
+				<div>
+					<p>상담 신청 메세지</p>
+					<textarea name="requestMessage" th:field="*{requestMessage}"></textarea>
+				</div>
+				<div>
+					<button>신청</button>
+				</div>
+			</form>
+		</div><!--innerFormBox-->
+	</div><!--formBox-->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</div>	
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매상담</title>
+    <link th:href="@{/css/consultation-customer.css}" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+    <div class="containerBox">
+
+		<div class="formBox">
+			<div class="innerFormBox">
+				<div>
+					<span>신청인 ID : </span>[[${#authentication.getPrincipal().getUsername()}]]
+				</div>
+				<form th:object="${consultation}" th:action="@{/consultation/buy/from}" method="post">
+					<input type="hidden" name="type" th:value="buy" th:field="*{type}">
+					<div>
+						<p>상담 신청 메세지</p>
+						<textarea name="requestMessage" th:field="*{requestMessage}"></textarea>
+					</div>
+					<div>
+						<button>신청</button>
+					</div>
+				</form>
+			</div><!--innerFormBox-->
+		</div><!--formBox-->
+
+    </div>
+</div>
+
+<script th:src="@{/js/consultation-customer.js}"></script>
+</body>
+</html>

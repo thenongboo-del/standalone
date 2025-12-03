@@ -1,5 +1,6 @@
 package com.sbproject.standalone.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	@Modifying
 	@Query(value = UPDATE_MEMBER, nativeQuery = true)
 	void queryUpdateMember(@Param("member") Member member);
+	
+	
+	public final String SELECT_CUSTOMER = "SELECT * FROM MEMBER WHERE ROLE = 'USER'";
+	@Query(value=SELECT_CUSTOMER, nativeQuery = true)
+	public List<Member> selectForUser();
+	
 	
 	// 회원탈퇴
 	@Transactional
