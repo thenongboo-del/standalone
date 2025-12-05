@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sbproject.standalone.entity.Car;
+import com.sbproject.standalone.entity.Consultation;
+import com.sbproject.standalone.entity.ConsultationStatus;
 import com.sbproject.standalone.entity.Member;
 import com.sbproject.standalone.entity.Notice;
 import com.sbproject.standalone.entity.Role;
 import com.sbproject.standalone.service.CarService;
+import com.sbproject.standalone.service.ConsultationService;
 import com.sbproject.standalone.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -36,6 +40,7 @@ public class DealerController {
 	
 	private final CarService carService;
 	
+	private final ConsultationService consultService;
 	
 	
 	private final PasswordEncoder passwordEncoder;
@@ -45,6 +50,15 @@ public class DealerController {
 	@GetMapping("/main")
 	public String requestDealerMain(Model model) {
 		
+		/* 상담 리스트 */
+		// 대기중인상담
+		
+		List<Consultation> consultWaitList = consultService.selectBystatus(ConsultationStatus.WAIT);
+		List<Consultation> consultScheduleList = consultService.selectBystatus(ConsultationStatus.SCHEDULE);
+		List<Consultation> consultInProgressList = consultService.selectBystatus(ConsultationStatus.IN_PROGRESS);
+		List<Consultation> consultEndList = consultService.selectBystatus(ConsultationStatus.END);
+
+		
 		/* 자동차 리스트 */
 		List<Car> carList = carService.getcarList();
 		
@@ -53,6 +67,12 @@ public class DealerController {
 		
 		/* 공지사항 */
 		List<Notice> noticeList = memberService.selectAllNotice();
+		
+		
+		model.addAttribute("consultWaitList", consultWaitList);
+		model.addAttribute("consultScheduleList", consultScheduleList);
+		model.addAttribute("consultInProgressList", consultInProgressList);
+		model.addAttribute("consultEndList", consultEndList);
 		
 		model.addAttribute("carList", carList);
 		model.addAttribute("customerList", memberList);
@@ -101,6 +121,7 @@ public class DealerController {
 		
 		return "dealer/main";
 	}
+	
 	
 	
 	

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 
-	document.getElementById('btnCartAdd')?.addEventListener('click', function (e) {
+	/*document.getElementById('btnCartAdd')?.addEventListener('click', function (e) {
 	const carId = document.getElementById('carId')?.value || '[[${car.carId}]]';
 	// minimal form submission example: use fetch to call put endpoint
 	fetch('/cars/cart', {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (r.ok) alert('장바구니에 추가되었습니다.');
 	else alert('요청 실패: ' + r.status);
 	}).catch(()=> alert('네트워크 오류'));
-	});
+	});*/
 
 
 	// 썸네일 클릭 -> 반영

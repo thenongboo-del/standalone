@@ -1,0 +1,16 @@
+.container {
+	
+}
+.content {
+	justify-content: center;   /* 수평 가운데 */
+	align-items: center;       /* 수직 가운데 */
+	min-height: 30vh;         /* 원하는 높이 만큼 설정 (필수!) */
+	min-width: 30vh;
+}
+
+
+.mapArea {
+	margin: 1% auto;
+	min-width: 100vh;
+	min-height: 100vh;
+}

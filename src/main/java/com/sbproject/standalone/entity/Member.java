@@ -154,7 +154,7 @@ public class Member {
     private LocalDate hireDate = LocalDate.now();
 
     // 상담 리스트
-    @OneToMany(mappedBy = "dealer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "dealerId", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Consultation> consultList = new ArrayList<>();
 	
 	

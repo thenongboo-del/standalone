@@ -1,0 +1,72 @@
+/* ===== Footer styles - add to main.css ===== */
+.site-footer {
+  background: linear-gradient(180deg,#050607 0%, #0a0a0a 100%);
+  color: #dceffb;
+  padding: 36px 20px 16px;
+  font-family: "Noto Sans KR", "IBM Plex Sans", sans-serif;
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+.footer-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display:flex;
+  gap: 28px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+.f-col { min-width:220px; }
+
+/* Brand */
+.f-brand { flex:1 1 360px; }
+.footer-logo { display:flex; gap:12px; align-items:center; text-decoration:none; color:inherit; }
+.brand-name { font-weight:700; font-size:1.05rem; letter-spacing:0.2px; }
+.brand-desc { margin:10px 0 12px; color:#9fb4c9; font-size:0.95rem; max-width:380px; }
+
+/* Contact */
+.contact { color:#b9d6ef; font-size:0.92rem; line-height:1.5; }
+.contact a { color:#dbeefe; text-decoration:none; }
+
+/* Links */
+.f-links { display:flex; gap:22px; flex:1 1 480px; }
+.links-group h4 { margin:0 0 8px; color:#f6fbff; font-size:0.95rem; }
+.links-group ul { list-style:none; padding:0; margin:0; }
+.links-group li { margin-bottom:8px; }
+.links-group a { color:#cfe9ff; text-decoration:none; font-size:0.92rem; }
+.links-group a:hover { color:#ff7733; }
+
+/* Stats / Right col */
+.f-stats { flex:0 0 220px; display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.stats { display:flex; gap:12px; }
+.stat { text-align:center; min-width:88px; }
+.stat-label { font-size:0.78rem; color:#8fa9bf; }
+.stat-value { font-size:1.25rem; font-weight:700; color:#fff; }
+
+/* Socials */
+.socials { display:flex; gap:8px; margin-top:6px; }
+.socials a { width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.03); border-radius:8px; color:#fff; text-decoration:none; }
+
+/* Back to top */
+.back-top {
+  margin-top:8px;
+  background: linear-gradient(90deg,#0ea5a5,#06b6d4);
+  color:#021226;
+  border:none;
+  padding:8px 10px;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* Footer bottom */
+.footer-bottom { margin-top:20px; padding-top:14px; border-top: 1px solid rgba(255,255,255,0.03); text-align:center; color:#8ea9bd; font-size:0.9rem; }
+.footer-bottom .dot { margin: 0 8px; color:#526b7f; }
+
+/* Responsive */
+@media (max-width:900px) {
+  .footer-wrap { gap:18px; padding-bottom:6px; }
+  .f-stats { align-items:flex-start; width:100%; order:3; }
+  .f-links { width:100%; order:2; gap:12px; }
+  .f-brand { width:100%; order:1; margin-bottom:8px; }
+  .stats { flex-direction:row; gap:8px; }
+}

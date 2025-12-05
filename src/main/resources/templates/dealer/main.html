@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Dealer Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/dealer/main.css}">
-    
+	<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+	<!--CSRF 사용 추가 코드-->
+	<th:block th:if="${_csrf != null}">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
 </head>
 <body>
 <div class="container">
@@ -19,8 +25,8 @@
             <li><a href="#" data-tab="stock">재고확인</a></li>
             <li><a href="#" data-tab="addDealer">신규사원 추가</a></li>
         </ul>
-        <a th:href="@{/}"><button>메인화면으로</button></a>
-        <a th:href="@{/logout}"><button>로그아웃</button></a>
+        <a th:href="@{/}"><button class="toTheMain">메인화면으로</button></a>
+        <a th:href="@{/logout}"><button class="toLogout">로그아웃</button></a>
     </aside>
 
     <main class="content">
@@ -28,11 +34,74 @@
         <section id="main" class="tab-content active">
             <h1>Dealer Dashboard</h1>
             <div class="cards">
-                <div class="card">공지사항: <span th:text="${noticeCount}">0</span></div>
+                <!--<div class="card">공지사항: <span th:text="${noticeCount}">0</span></div>
                 <div class="card">일정: <span th:text="${scheduleCount}">0</span></div>
                 <div class="card">상담: <span th:text="${chatCount}">0</span></div>
                 <div class="card">고객: <span th:text="${customerCount}">0</span></div>
-                <div class="card">재고: <span th:text="${stockCount}">0</span></div>
+                <div class="card">재고: <span th:text="${stockCount}">0</span></div>-->
+				<div class="noticeBox">
+					<h2> 공지사항 </h2>
+					<div class="notice-item" th:each="notice, iter : ${notice}" th:if="${iter.index} < 8">	<!--8 개만 잘라서 보여지기-->
+						            
+			            <!-- 제목 행 -->
+			            <div class="notice-header">
+			                <span class="notice-id" th:text="${notice.id}"></span>
+			                <span class="notice-title" th:text="${notice.title}"></span>
+			                <span class="notice-date" th:text="${notice.createdDate}"></span>
+			            </div>
+	
+			        </div>
+				</div>
+				
+				<div class="consultationBox">
+					<h2>대기중인 상담</h2>
+					<div class="notice-consult-card" th:attr="data-id=${consult.id}" th:each="consult, iter : ${consultWaitList}" th:if="${iter.index} < 4">
+				        <!-- 상단 정보 -->
+				        <div class="consult-top">
+				          <div class="consult-meta">
+				            <span class="customer-id" th:text="${consult.customerId}">user123</span>
+				            <span class="consult-type" th:text="${consult.type.name() == 'BUY' ? '구매상담' : '시승상담'}"></span>
+				            <span class="consult-status pending">대기중</span>
+				          </div>
+				          <div class="consult-time" th:text="${#temporals.format(consult.requestedAt, 'MM/dd HH:mm')}">01/03 14:30</div>
+				        </div>
+						<div class="messageAndImg">
+							<!--<img th:src="@{/icons/1st.png}" style="width: 80px; height: 80px">-->
+					        <div class="consult-message" style="width: 90vh;">
+					          <p th:text="${consult.requestMessage}"></p>
+					        </div>
+						</div>
+				        
+				      </div>
+				</div>
+				<div class="stockBox">
+					<h2>재고 현황</h2>
+					<div class="chartBox">
+				        <div class="chart-card">
+				            <h3>재고 요약</h3>
+				            <canvas id="stockChart" width="400" height="160"></canvas>
+				        </div>
+					</div>
+					<div class="main-stock-overview">
+				        <div class="summary-cards">
+				            <div class="summary-card">
+				                <div class="label">총 모델수</div>
+				                <div class="value" id="totalModels">0</div>
+				            </div>
+				            <div class="summary-card">
+				                <div class="label">총 재고수</div>
+				                <div class="value" id="totalStock">0</div>
+				            </div>
+				            <div class="summary-card">
+				                <div class="label">품절 모델</div>
+				                <div class="value" id="outOfStockCount">0</div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+				
+				
             </div>
         </section>
 
@@ -60,67 +129,303 @@
 
         <section id="schedule" class="tab-content">
             <h2>일정</h2>
-            <p>일정 내용을 여기에 표시합니다.</p>
+			<!--일정-->
+		    <div id="calendar"></div>
+			<!--일정 끝-->
         </section>
 
-        <section id="chat" class="tab-content">
-            <h2>상담</h2>
-            <p>상담 내용을 여기에 표시합니다.</p>
-        </section>
-
-		<section id="customer" class="tab-content">
-		  <h2>고객리스트</h2>
-			<div class="serchBox">
-			  <!-- 검색바 -->
-			  <div class="customer-search">
-			    <input id="customerSearch" type="search" placeholder="이름 / 전화번호 / 이메일로 검색..." />
-			    <button id="clearSearch" type="button">지우기</button>
-			  </div>
-			</div>
-	
-		  <div class="customerListBox">
-			  <!-- 리스트 -->
-			  <div class="customer-list">
-			    <!-- 반복 -->
-				<div th:each="customer : ${customerList}" class="customer-card"
-				     th:attr="data-name=${customer.name}, 
-				              data-phone=${customer.phone}, 
-				              data-memberId=${customer.memberId}, 
-				              data-email=${customer.email}">
-			      
-			      <!-- 기본 보이는 행 -->
-			      <div class="customer-summary" role="button" tabindex="0">
-			        <div class="summary-left">
-			          <div class="cust-name" th:text="${customer.name}">이름</div>
-			          <div class="cust-meta">
-			            <span class="cust-age" th:text="${customer.age}">나이</span>
-			            <span class="cust-gender" th:text="${customer.gender}">성별</span>
-			          </div>
-			        </div>
-			        <div class="summary-right">
-			          <div class="cust-phone" th:text="${customer.phone}">010-0000-0000</div>
-			          <div class="caret">▾</div>
-			        </div>
-			      </div>
-	
-			      <!-- 아코디언 상세 (초기 숨김) -->
-			      <div class="customer-details" aria-hidden="true">
-			        <div class="detail-row"><strong>가입일:</strong> <span th:text="${customer.regDate}">memberId</span></div>
-			        <div class="detail-row"><strong>생일:</strong> <span th:text="${customer.birthDay}">memberId</span></div>
-			        <div class="detail-row"><strong>아이디:</strong> <span th:text="${customer.memberId}">memberId</span></div>
-			        <div class="detail-row"><strong>이메일:</strong> <span th:text="${customer.email}">email</span></div>
-			        <div class="detail-row"><strong>롤:</strong> <span th:text="${customer.role}">email</span></div>
-			      </div>
-			    </div>
-			    <!-- 반복 끝 -->
-			  </div>
-	
-			  <!-- 페이징 자리(필요하면 사용) -->
-			  <div class="customer-footer">
-			    <!-- 페이징/요약을 여기 넣을 수 있음 -->
-			  </div>
+		<!-- 상담 -->
+		<!-- 상담 탭 -->
+		<section id="chat" class="tab-content">
+		  <!-- 헤더 요약 -->
+		  <div class="chat-header">
+		    <h2>상담 접수 목록</h2>
+		    <div class="chat-summary">
+		      <span class="badge badge-pending">대기 <strong th:text="${consultWaitList.size()}">12</strong>건</span>
+		      <!--<span class="badge badge-today">오늘 접수 <strong th:text="${todayCount}">5</strong>건</span>-->
+		    </div>
 		  </div>
+
+		  <!-- 서브 탭 (상담 상태별) -->
+		  <div class="chat-tabs" role="tablist" aria-label="상담 상태">
+		    <button type="button" class="chat-tab active" data-target="tab-waiting" role="tab">대기중</button>
+		    <button type="button" class="chat-tab" data-target="tab-scheduling" role="tab">일정 조정중</button>
+		    <button type="button" class="chat-tab" data-target="tab-inprogress" role="tab">진행중</button>
+		    <button type="button" class="chat-tab" data-target="tab-finished" role="tab">종료</button>
+		  </div>
+
+		  <!-- 탭 패널: 대기중 -->
+		  <div id="tab-waiting" class="chat-panel active" role="tabpanel">
+		    <div class="consult-list">
+		      <div class="consult-card" th:attr="data-id=${consult.id}" th:each="consult : ${consultWaitList}">
+		        <!-- 상단 정보 -->
+		        <div class="consult-top">
+		          <div class="consult-meta">
+		            <span class="customer-id" th:text="${consult.customerId}">user123</span>
+		            <span class="consult-type" th:text="${consult.type.name() == 'BUY' ? '구매상담' : '시승상담'}"></span>
+		            <span class="consult-status pending">대기중</span>
+		          </div>
+		          <div class="consult-time" th:text="${#temporals.format(consult.requestedAt, 'MM/dd HH:mm')}">01/03 14:30</div>
+		        </div>
+				<div class="messageAndImg">
+					<!--<img th:src="@{/icons/1st.png}" style="width: 80px; height: 80px">-->
+			        <div class="consult-message" style="width: 90vh;">
+			          <p th:text="${consult.requestMessage}"></p>
+			        </div>
+				</div>
+		        <div class="consult-actions">
+					<a th:href="@{|/consultation/dealer/schedule/${consult.id}|}">
+			          <button class="btn-start" th:attr="data-id=${consult.id}">
+			            상담 선택
+			          </button>
+					</a>
+		        </div>
+		      </div>
+
+		      <div class="empty-state" th:if="${consultWaitList == null or #lists.isEmpty(consultWaitList)}">
+		        <img src="/icons/empty-chat.svg" alt="빈 상태" style="width: 100px; opacity: 0.5;">
+		        <p>현재 대기 중인 상담이 없습니다.</p>
+		      </div>
+		    </div>
+		  </div>
+
+		  <!-- 탭 패널: 일정 조정중 -->
+		  <div id="tab-scheduling" class="chat-panel" role="tabpanel" aria-hidden="true">
+		    <div class="consult-list">
+		      <div class="consult-card"  th:attr="data-id=${consult.id}" th:each="consult : ${consultScheduleList}">
+		        <div class="consult-top">
+		          <div class="consult-meta">
+		            <span class="customer-id" th:text="${consult.customerId}">user123</span>
+		            <span class="consult-type" th:text="${consult.type.name() == 'BUY' ? '구매상담' : '시승상담'}"></span>
+		            <span class="consult-status progress">일정조정중</span>
+		          </div>
+		          <div class="consult-time" th:text="${#temporals.format(consult.requestedAt, 'MM/dd HH:mm')}">01/03 14:30</div>
+		        </div>
+		        <div class="consult-message">
+		          <p th:text="${consult.requestMessage}"></p>
+		        </div>
+				<div class="consultDetailArea">
+					<div class="consult-details" th:each="detail : ${consult.details}">
+						<h4>[[${detail.roundNumber}]]차 상담내역</h4>
+				        <p class="detail-content" th:text="${detail.content}"></p>
+				        <p class="detail-date" th:text="${#temporals.format(detail.consultedAt, 'MM/dd HH:mm')}"></p>
+				    </div>
+				</div>
+				<div class="consult-actions">
+			        <button class="btn-start" th:attr="data-id=${consult.id}">
+			        	다음상담 일정입력
+			        </button>
+		            
+					<button class="btn-buy" 
+				            th:attr="data-id=${consult.id}" 
+				            onclick="completeConsultation(this, 'BUY')"
+				            style="background:#22c55e; color:white; padding:10px 16px; border:none; border-radius:8px; font-weight:bold;">
+				        계약 완료
+				    </button>
+				    <button class="btn-normal" 
+				            th:attr="data-id=${consult.id}" 
+				            onclick="completeConsultation(this, 'NORMAL')"
+				            style="background:#6b7280; color:white; padding:10px 16px; border:none; border-radius:8px; margin-left:8px;">
+				        상담 종료
+				    </button>
+				</div>
+		      </div>
+
+		      <div class="empty-state" th:if="${consultScheduleList == null or #lists.isEmpty(consultScheduleList)}">
+		        <p>일정 조정중인 상담이 없습니다.</p>
+		      </div>
+		    </div>
+		  </div>
+
+		  <!-- 탭 패널: 진행중 -->
+		  <div id="tab-inprogress" class="chat-panel" role="tabpanel" aria-hidden="true">
+		    <div class="consult-list">
+		      <div class="consult-card" th:each="consult : ${consultInProgressList}" th:attr="data-id=${consult.id}">
+		        <!-- 상단 정보 -->
+		        <div class="consult-top">
+		          <div class="consult-meta">
+		            <span class="customer-id" th:text="${consult.customerId}">user123</span>
+		            <span class="consult-type" th:text="${consult.type.name() == 'BUY' ? '구매상담' : '시승상담'}"></span>
+		            <span class="consult-status progress">진행중</span>
+		          </div>
+		          <div class="consult-time" th:text="${#temporals.format(consult.assignedAt ?: consult.requestedAt, 'MM/dd HH:mm')}"></div>
+		        </div>
+
+		        <!-- 고객 메시지 -->
+		        <div class="consult-message">
+		          <p th:text="${consult.requestMessage}"></p>
+		        </div>
+
+		        <!-- 1. 상담 내용 입력 박스 (맨 위로 올림 + 완전 독립) -->
+		        <div class="consult-content-input-box">
+		          <div class="content-input-header">
+		            <h4 th:if="${consult.type.name() == 'BUY'}">[[${consult.roundNumber}]]차 상담 내용 기록</h4>
+		            <h4 th:if="${consult.type.name() == 'DRIVE'}">시승신청 내용 기록</h4>
+		            <span class="required-hint">필수 입력</span>
+		          </div>
+		          <form th:action="@{/consultation/dealer/insert/content}" method="post" class="consult-content-form">
+		            <input type="hidden" name="id" th:value="${consult.id}">
+		            <textarea name="content" placeholder="고객과 나눈 상담 내용을 자세히 기록해 주세요.&#10;예: 관심 차종, 예산 범위, 시승 희망일, 특이사항 등" required rows="4"></textarea>
+		            <div class="form-actions">
+		              <button type="submit" class="btn-submit-content submitContent">상담 내용 저장</button>
+		            </div>
+		          </form>
+		        </div>
+
+		        <!-- ← 여기까지가 입력 박스 -->
+
+		        <!-- 2. 액션 버튼들 (아래쪽에 깔끔하게 정렬) -->
+		        <div class="consult-card-actions">
+		          <button class="btn-start btn-medium" th:attr="data-id=${consult.id}">
+		            다음 상담 일정 조정
+		          </button>
+		          <div class="complete-buttons">
+		            <button class="btn-buy" th:attr="data-id=${consult.id}" onclick="completeConsultation(this, 'BUY')">
+		              계약 완료
+		            </button>
+		            <button class="btn-normal" th:attr="data-id=${consult.id}" onclick="completeConsultation(this, 'NORMAL')">
+		              상담 종료
+		            </button>
+		          </div>
+		        </div>
+
+		      </div>
+		    </div>
+		  </div>
+
+		  <!-- 탭 패널: 종료 -->
+		  <!-- 탭 패널: 종료 -->
+		  <div id="tab-finished" class="chat-panel" role="tabpanel" aria-hidden="true">
+		    <!-- 검색바 추가 (고객 리스트처럼) -->
+		    <div class="chat-search">
+		      <input id="finishedSearch" type="search" placeholder="고객ID / 상담 메시지 / 상담 내용으로 검색..." />
+		      <button id="clearFinishedSearch" type="button">지우기</button>
+		    </div>
+
+		    <div class="consult-list">
+		      <div class="consult-card" th:each="consult : ${consultEndList}" th:attr="data-id=${consult.id}, data-customer-id=${consult.customerId}, data-request-message=${consult.requestMessage}">
+		        <div class="consult-top">
+		          <div class="consult-meta">
+		            <span class="customer-id" th:text="${consult.customerId}">user123</span>
+		            <span class="consult-type" th:text="${consult.type.name() == 'BUY' ? '구매상담' : '시승상담'}"></span>
+		            <span class="consult-status finished">종료</span>
+		          </div>
+		          <div class="consult-time" th:text="${#temporals.format(consult.endDate ?: consult.requestedAt, 'MM/dd HH:mm')}">01/03 14:30</div>
+		        </div>
+		        <div class="consult-message">
+		          <p th:text="${consult.requestMessage}"></p>
+		        </div>
+		        <!-- 세부 내용 아코디언 (초기 숨김) -->
+		        <div class="consultDetailArea" style="display: none;" aria-hidden="true">
+		          <div class="consult-details" th:each="detail : ${consult.details}" th:attr="data-content=${detail.content}">
+		            <h4>[[${detail.roundNumber}]]차 상담내역</h4>
+		            <p class="detail-content" th:text="${detail.content}"></p>
+		            <p class="detail-date" th:text="${#temporals.format(detail.consultedAt, 'MM/dd HH:mm')}"></p>
+		          </div>
+		        </div>
+		        <!-- 캐럿 아이콘 추가 (토글 표시용, 고객 리스트처럼) -->
+		        <div class="caret">▾</div>
+		      </div>
+
+		      <div class="empty-state" th:if="${consultEndList == null or #lists.isEmpty(consultEndList)}">
+		        <p>종료된 상담이 없습니다.</p>
+		      </div>
+		    </div>
+		  </div>
+		  
+		</section><!-- 상담 끝 -->
+		
+		
+		<!--상담 모달-->
+		<div id="consultModal" class="modal">
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+		    <h3>상담일정</h3>
+		    <div>
+		      <img th:src="@{/icons/3th.png}" style="width: 80px;">
+		    </div>
+
+		    <!-- 상담 정보 표시 -->
+		    <p id="modal-customerId"></p>
+		    <p id="modal-message"></p>
+
+		    <!-- 상담 스케줄 폼 -->
+		    <form id="consultForm" th:action="@{/consultation/dealer/saveSchedule}" method="post">
+		      <!-- 상담 ID 숨김 필드 -->
+		      <input type="hidden" name="consultId" id="form-consultId">
+
+		      <!-- 예: 상담 일정 선택 -->
+		      <label for="scheduleDate">일정 날짜 : </label>
+		      <input type="date" id="scheduleDate" name="scheduleDate" required>
+			  <br>
+		      <label for="scheduleTime">시간 : </label>
+		      <input type="time" id="scheduleTime" name="scheduleTime" required>
+			  <br>
+		      <button type="submit">스케줄 저장</button>
+		    </form>
+		  </div>
+		</div>
+		
+		
+		
+		
+		<section id="customer" class="tab-content">
+			<h2>고객리스트</h2>
+			<div class="serchBox">
+				<!-- 검색바 -->
+				<div class="customer-search">
+					<input id="customerSearch" type="search" placeholder="이름 / 전화번호 / 이메일로 검색..." />
+					<button id="clearSearch" type="button">지우기</button>
+				</div> 
+			</div> 
+			<div class="customerListBox">
+				<!-- 리스트 --> 
+				<div class="customer-list"> 
+					<!-- 반복 --> 
+					<div th:each="customer : ${customerList}" class="customer-card" th:attr="data-name=${customer.name}, data-phone=${customer.phone}, data-memberId=${customer.memberId}, data-email=${customer.email}"> 
+						<!-- 기본 보이는 행 --> <div class="customer-summary" role="button" tabindex="0">
+							<div class="summary-left">
+								<div class="cust-name" th:text="${customer.name}">이름</div>
+								<div class="cust-meta">
+									<span class="cust-age" th:text="${customer.age}">나이</span>
+									<span class="cust-gender" th:text="${customer.gender}">성별</span>
+								</div>
+							</div>
+							<div class="summary-right">
+								<div class="cust-phone" th:text="${customer.phone}">010-0000-0000</div>
+								<div class="caret">▾</div>
+							</div>
+						</div>
+						<!-- 아코디언 상세 (초기 숨김) -->
+						<div class="customer-details" aria-hidden="true">
+							<div class="detail-row"><strong>가입일:</strong>
+								<span th:text="${customer.regDate}">memberId</span>
+							</div>
+							<div class="detail-row">
+								<strong>생일:</strong>
+								<span th:text="${customer.birthDay}">memberId</span>
+							</div> 
+							<div class="detail-row"><strong>아이디:</strong> 
+								<span th:text="${customer.memberId}">memberId</span>
+							</div> 
+							<div class="detail-row">
+								<strong>이메일:</strong> 
+								<span th:text="${customer.email}">email</span>
+							</div> 
+							<div class="detail-row"><strong>롤:</strong> 
+								<span th:text="${customer.role}">email</span>
+							</div> 
+						</div> 
+					</div> <!-- 반복 끝 --> 
+				</div> 
+				<!-- 페이징 자리(필요하면 사용) --> 
+				<div class="customer-footer"> 
+					<!-- 페이징/요약을 여기 넣을 수 있음 --> 
+				</div> 
+			</div> 
 		</section>
+		
+		
 
 		<!--  자동차 재고  -->
 		<!-- Stock 섹션 (교체할 부분) -->
@@ -183,6 +488,8 @@
 		        </div>
 		    </div>
 		</section>
+		
+		
 
 
 		
@@ -272,5 +579,84 @@
 
 <script th:src="@{/js/dealer/main.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 일정 탭이 보일 때만 캘린더 그리기 (핵심!)
+    const scheduleTab = document.getElementById('schedule');
+    if (!scheduleTab) return;
+
+    // 탭 전환 감지해서 일정 탭 들어올 때만 그리기
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (scheduleTab.classList.contains('active')) {
+                const calendarEl = document.getElementById('calendar');
+                if (calendarEl && !calendarEl._calendar) {  // 중복 방지
+                    const calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        locale: 'ko',
+                        height: '700px',
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        events: scheduleUrl,
+
+                        eventContent: function(arg) {
+                            const type = arg.event.extendedProps.type === 'BUY' ? '구매' : '시승';
+                            const customer = arg.event.extendedProps.customerId || '고객';
+                            return {
+                                html: `<div style="padding:6px 10px; font-size:14px; color:white;">
+                                         <b>${customer}</b><br>
+                                         <small>${type} 상담</small>
+                                       </div>`
+                            };
+                        },
+
+                        eventDidMount: function(info) {
+                            if (info.event.extendedProps.type === 'BUY') {
+                                info.el.style.backgroundColor = '#22c55e';
+                                info.el.style.borderColor = '#16a34a';
+                            } else {
+                                info.el.style.backgroundColor = '#FF5500';
+                                info.el.style.borderColor = '#e64a00';
+                            }
+                        },
+
+                        //eventClick: function(info) {
+                          //  location.href = `/consultation/dealer/detail/${info.event.id}`;
+                        //}
+                    });
+                    calendar.render();
+                    calendarEl._calendar = calendar;  // 중복 생성 방지
+                }
+            }
+        });
+    });
+
+    // class 변경 감지 시작
+    observer.observe(document.body, { 
+        attributes: true, 
+        attributeFilter: ['class'],
+        subtree: true 
+    });
+
+    // 처음부터 일정 탭이 열려있을 경우 대비
+    if (scheduleTab.classList.contains('active')) {
+        setTimeout(() => {
+            const calendarEl = document.getElementById('calendar');
+            if (calendarEl && !calendarEl._calendar) {
+                // 위와 동일한 캘린더 생성 코드
+                // (생략 - 위 코드 복붙)
+            }
+        }, 100);
+    }
+});
+</script>
+
+<script th:inline="javascript">
+  var scheduleUrl = /*[[@{/api/schedule}]]*/ '/api/schedule';
+</script>
+
 </body>
 </html>

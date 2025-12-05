@@ -16,7 +16,7 @@
 		<a th:href="@{/consultation/main}">시승신청</a>
 	</div>
 	<div class="menuButton menu">
-		AI 차량 추천
+		<a th:href="@{/recommand/form}">AI 차량 추천</a>
 	</div>
 	<div class="menuButton menu">
 		프로모션
@@ -35,14 +35,20 @@
 	
 	<!-- 일반회원 로그인 상태 -->
 	<div class="profileArea">
-		<a sec:authorize="isAuthenticated()" th:href="@{|/member/update/${#authentication.getPrincipal().getUsername()}|}" class="nav-link align-self-center ms-2" title="회원정보">
-			<img th:src="@{/icons/profile.png}" class="icon-profile">
-		<div class="userId">[[${#authentication.getPrincipal().getUsername()}]]</div>
-		</a>
+		<div sec:authorize="isAuthenticated()">
+			<a sec:authorize="hasRole('ROLE_USER')" th:href="@{|/member/update/${#authentication.getPrincipal().getUsername()}|}" class="nav-link align-self-center ms-2" title="회원정보">
+				<img th:src="@{/icons/profile.png}" class="icon-profile">
+				<div class="userId">[[${#authentication.getPrincipal().getUsername()}]]</div>
+			</a>
+			<a sec:authorize="hasRole('ROLE_DEALER')" th:href="@{/dealer/main}" class="nav-link align-self-center ms-2" title="회원정보">
+				<img th:src="@{/icons/profile.png}" class="icon-profile">
+				<div class="userId">[[${#authentication.getPrincipal().getUsername()}]]</div>
+			</a>
+		</div>
 	</div>
 	<div class="logoutArea">
 		<a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link align-self-center ms-2">
-			로그아웃
+			Logout
 			<!--<img th:src="@{/icons/logout.png}" class="icon-logout" title="로그아웃">-->
 		</a>
 	</div>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>현대/기아 자동차 맞춤 추천 상담</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link th:href="@{/css/recommandForm.css}" rel="stylesheet">
+	
+</head>
+<body>
+<th:block th:replace="~{/module/top.html}"></th:block>
+<div class="container">
+	
+	<div class="chat-container">
+	    <!-- 왼쪽 요약/설정 패널 -->
+	    <div class="side-panel">
+	        <div class="brand">
+	            <div class="logo">HI</div>
+	            <div>
+	                <h1>현대/기아 맞춤 추천</h1>
+	                <p>간단한 정보로 최적의 차를 추천해 드립니다</p>
+	            </div>
+	        </div>
+	
+	        <div class="panel-section">
+	            <label>예산 (만원)</label>
+	            <input type="number" id="budget" placeholder="예: 4000">
+	        </div>
+	        <div class="panel-section">
+	            <label>나이대 · 성별 · 용도</label>
+	            <select id="age"><option value="">나이대</option><option value="20대">20대</option><option value="30대">30대</option><option value="40대">40대</option><option value="50대 이상">50대 이상</option></select>
+	            <div style="height:8px"></div>
+	            <select id="gender"><option value="">성별</option><option value="남성">남성</option><option value="여성">여성</option></select>
+	            <div style="height:8px"></div>
+	            <select id="purpose"><option value="">용도</option><option value="출퇴근">출퇴근</option><option value="가족">가족</option><option value="레저">레저/여행</option><option value="도심">도심 주행</option></select>
+	        </div>
+	
+	        <div class="panel-section">
+	            <label>가족 구성 (선택)</label>
+	            <input type="text" id="family" placeholder="예: 부부 + 아이 2명">
+	            <div style="height:10px"></div>
+	            <label>희망사항 (선택)</label>
+	            <textarea id="etc" placeholder="예: 전기차 희망, SUV 선호 등"></textarea>
+	        </div>
+	
+	        <button class="btn-start" onclick="startConsultation()">상담 시작하기 →</button>
+	
+	    </div>
+	
+	    <!-- 오른쪽 채팅 영역 -->
+	    <div class="chat-area">
+	        <div class="chat-header">
+	            <div class="title"><div class="status-bullet"></div><div><h2>맞춤 차량 추천 상담</h2><p>자동차 전문가 AI 딜러와 대화하세요</p></div></div>
+	            <div style="font-size:13px; opacity:0.85">상담 세션: <span id="sessionLabel">미연결</span></div>
+	        </div>
+	
+	        <div id="responseArea" class="chat-messages" aria-live="polite">
+	            <!-- 메시지들이 쌓임 -->
+	        </div>
+	
+	        <div class="chat-input">
+	            <form id="chatForm">
+	                <textarea id="message" placeholder="추가로 궁금한 점을 말씀해주세요..." required></textarea>
+	                <button type="submit">전송</button>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+	
+</div><!--container-->
+
+
+<script th:src="@{/js/recommandForm.js}"></script>
+</body>
+</html>

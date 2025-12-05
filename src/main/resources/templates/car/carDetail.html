@@ -53,7 +53,7 @@
           
 			<div class="buttonArea">
 	        	<a sec:authorize="isAnonymous()" th:href="|javascript:alert('로그인 후 사용 할 수 있는 메뉴입니다.')|" id="btnOrderAsk" class="btn btn-outline">구매상담</a>
-	        	<a sec:authorize="isAuthenticated()" id="btnCartAdd" class="btn btn-outline">구매상담</a>
+	        	<a th:href="@{/consultation/buy/form}" sec:authorize="isAuthenticated()" id="btnCartAdd" class="btn btn-outline">구매상담</a>
 				<a th:href="@{/cars}" class="btn btn-outline">목록으로</a>
 			</div>
 

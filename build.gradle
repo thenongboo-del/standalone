@@ -64,6 +64,12 @@ dependencies {
 	
 	// Log4j2 로깅 라이브러리 설정
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	
+	
+	// chatbot을 위한 python 연동, webClient 관련의존성
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'  // WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {

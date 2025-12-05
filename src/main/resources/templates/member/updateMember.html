@@ -85,11 +85,22 @@
 					<input type="text" id="age" name="age" th:field="*{age}" readonly>
 				</div>
 			</div>
-            <button type="submit">정보수정</button>
+			
+			<div>
+				<a th:href="@{/member/consultation/list}">
+					<p class="consultContP">진행중인 상담 : [[${consultCount}]] 건</p>
+				</a>
+			</div>
+            
+			
+			<button type="submit">정보수정</button>
         </form>
 		<div class="toTheMain">
 			<a th:href="@{/}">메인화면</a>
 		</div>
+		
     </div>
+	
+	
 </body>
 </html>

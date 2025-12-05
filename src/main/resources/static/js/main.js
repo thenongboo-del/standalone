@@ -1,3 +1,8 @@
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
 	
     const modal = document.getElementById("successModal");
@@ -47,5 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeModal();
     });
+	
+	
+	
+	
+	
 	
 });

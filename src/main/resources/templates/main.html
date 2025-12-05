@@ -2,18 +2,82 @@
 <head>
 <title></title>
 	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<link th:href="@{/css/bottom.css}" rel="stylesheet">
 	<script th:src="@{/js/main.js}"></script>
+	<!--jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script>
+		$(document).ready(() => {
+
+		    // slick 슬라이더 설정
+		    $(".slickslider").slick({
+		        slidesToShow: 1,     // 슬라이드 노출 개수
+		        slidesToScroll: 1,   // 슬라이드 이동 개수
+		        autoplay: true,      // 자동 화면전환 여부: 기본값(false)
+		        dots: false,          // 블릿의 유무: 기본값(false)
+		        speed: 1000,         // 화면전환 시간: 1초
+		        autoplaySpeed: 2000, // 화면지연 시간: 2초
+		        pauseOnHover: true,  // 마우스를 올렸을 때 화면전환 여부: 기본값(true)
+		        draggable: true,     // 슬라이드 드래그 여부: 기본값(true)
+		        infinite: true,      // 화면전환 무한반복 여부: 기본값(true)
+		        centerMode: false,    // 가운데 정렬 여부: 기본값(false)
+		        // 추가 옵션
+		        vertical: false,      // 화면전환 방향: 기본값(false)
+		        arrows: false,        // 이전, 다음 버튼 유무: 기본값(false) -> 버튼은 커스터마이징해서 사용함
+		        fade: false,           // 페이드 아웃 효과 여부: 기본값(false) -> 슬라이드가 1장으로 바뀐 후 슬라이드 효과 적용
+		    });
+		})
+	</script>
+	
 </head>
 <body>
 	<th:block th:replace="~{/module/top.html}"></th:block>
 	<img th:src="@{/images/maincar01.gif}" id="mainImg">
-	<div>
-		
+
+	<div class="slideArea">
+	  <ul class="slickslider">
+	    <li><img th:src="@{/images/gv8002.png}" alt="slide1"></li>
+	    <li><img th:src="@{/images/slider-2.jpg}" alt="slide2" style="width: 100%;"></li>
+	    <li><img th:src="@{/images/slider-3.jpg}" alt="slide3" style="width: 100%;"></li>
+	    <li><img th:src="@{/images/slider-4.jpg}" alt="slide4" style="width: 100%;"></li>
+	    <li><img th:src="@{/images/maincar.jpg}" alt="slide5"></li>
+	  </ul>
 	</div>
-	<br>
-	<div class="testArea">
-		joke
+
+
+	<!-- 히어로 섹션 -->
+	<section class="hero">
+	    <img th:src="@{/images/hero-main.jpg}" alt="메인 히어로">
+	    <div class="hero-text">
+	        <h1 class="hero-title">IONIQ 6</h1>
+	        <p class="hero-subtitle">미래의 디자인, 지금의 드라이빙</p>
+	    </div>
+	    <div class="accent-bar"></div>
+	</section>
+
+	<!-- 프로모션 섹션 -->
+	<section class="promotion">
+	    <img th:src="@{/images/promo-dec.jpg}" alt="12월 프로모션">
+	    <div class="promo-content">
+	        <div class="promo-badge">12월 한정 특가</div>
+	        <h2 class="promo-title">최대 700만원 혜택</h2>
+	        <p class="promo-desc">무이자 60개월 · 5년 보증 연장 · 충전기 무료 제공</p>
+	    </div>
+	</section>
+
+	<!-- 기존 성공 모달 -->
+	<div th:if="${flashMessage}" id="successModal" class="modal-overlay">
+	    <div class="modal-content">
+	        <div class="modal-icon">✓</div>
+	        <h2>회원가입 완료!</h2>
+	        <p th:text="${flashMessage}"></p>
+	        <button type="button" class="modal-close-btn">확인</button>
+	    </div>
 	</div>
+	
 	
 	
 	<!-- 가입메세지 비어있는지 확인후 띄워준다 -->
@@ -26,7 +90,13 @@
 	        <button type="button" class="modal-close-btn">확인</button>
 	    </div>
 	</div>
+	
+	
+	
 </body>
+
+<th:block th:replace="~{/module/bottom.html}"></th:block>
+
 </html>
 
 

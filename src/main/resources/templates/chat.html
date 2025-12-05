@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>챗봇 상담</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h1>Standalone 챗봇 상담</h1>
+    </div>
+
+    <div id="responseArea" class="chat-messages">
+        <!-- 여기에 채팅이 계속 쌓임 -->
+    </div>
+
+    <div class="chat-input">
+        <form id="chatForm" class="input-group">
+            <textarea id="message" name="message" placeholder="궁금한 걸 물어보세요..." required></textarea>
+            <button type="submit">전송</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+</body>
+<script th:src="@{/js/chat2.js}"></script>
+</html>
+
+
+

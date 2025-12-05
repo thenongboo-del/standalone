@@ -15,6 +15,5 @@ public class Dealer extends Member {
 
     private LocalDate hireDate = LocalDate.now();
 
-    @OneToMany(mappedBy = "dealer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Consultation> consultList = new ArrayList<>();
 }

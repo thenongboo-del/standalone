@@ -1,0 +1,161 @@
+/* consultHistory.css */
+.container {
+	margin-top: 100px;
+}
+
+
+body.dark-theme {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    font-family: 'Pretendard', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+.history-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.4rem;
+    margin-bottom: 50px;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 85, 0, 0.3);
+}
+
+/* 각 상태 섹션 */
+.status-section {
+    margin-bottom: 60px;
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 1px solid #333;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    background: rgba(40, 40, 40, 0.8);
+    border-bottom: 1px solid #444;
+    gap: 20px;
+}
+
+.status-icon {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 0 10px rgba(255,85,0,0.4));
+}
+
+.status-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.status-badge {
+    margin-left: auto;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+.status-badge.pending    { background: #444; color: #ccc; }
+.status-badge.scheduled  { background: #FF5500; color: white; }
+.status-badge.inprogress { background: #ffa940; color: #000; }
+.status-badge.success    { background: #22c55e; color: white; }
+.status-badge.closed     { background: #666; color: #ccc; }
+
+/* 타임라인 */
+.timeline {
+    padding: 20px 30px 30px;
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 25px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: -15px;
+    width: 3px;
+    background: #FF5500;
+    opacity: 0.3;
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 12px;
+    width: 12px;
+    height: 12px;
+    background: #FF5500;
+    border: 3px solid #000;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255,85,0,0.3);
+}
+
+.timeline-content {
+    background: rgba(50, 50, 50, 0.7);
+    padding: 18px 24px;
+    border-radius: 12px;
+    border-left: 4px solid #FF5500;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateX(10px);
+    background: rgba(60, 60, 60, 0.9);
+    border-left-color: #ff7722;
+}
+
+.message {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #fff;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.95rem;
+    color: #aaa;
+}
+
+.details strong {
+    color: #FF5500;
+}
+
+.result-tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.result-tag.buy    { background: #22c55e; color: white; }
+.result-tag.normal { background: #666; color: #ccc; }
+.result-tag.drive { background: rgb(238, 238, 0); color: rgb(0, 128, 128);}
+
+.empty-message {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+    font-style: italic;
+}

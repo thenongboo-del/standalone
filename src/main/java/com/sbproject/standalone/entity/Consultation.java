@@ -42,14 +42,12 @@ public class Consultation {
     private LocalDateTime nextSchedule; // 상담 예정일
 
     // 신청고객: Member ManyToOne으로 매핑
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Member customer;
+    private String customerId;
 
     // 상담 딜러: ManyToOne (여러 상담이 한 딜러에 속함)
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id")
-    private Member dealer;
+    private String dealerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 32)
@@ -79,6 +77,10 @@ public class Consultation {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    @UpdateTimestamp
+    @Column(name = "end_date")
+    private LocalDateTime endDate;		// 상담 종료일
 
     // 답변/상담 내용: 일대다 관계
     @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL, orphanRemoval = true)

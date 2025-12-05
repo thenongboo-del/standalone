@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>시승 신청</title>
+    <link th:href="@{/css/buyForm.css}" rel="stylesheet">
+    <link th:href="@{/css/driveRequested.css}" rel="stylesheet">
+	<link th:href="@{/css/bottom.css}" rel="stylesheet">
+</head>
+<body>
+
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="container">
+    <div class="messageBox">
+        <img th:src="@{/icons/drive-2.png}" alt="시승 신청 완료">
+
+        <h1>시승 신청이 완료되었습니다</h1>
+        <h4>
+            담당 딜러가 배정되면<br>
+            <span class="highlight">빠른 시일 내에 연락</span>드리겠습니다.
+        </h4>
+
+        <div class="status-badge">
+            스케줄 조율 대기중
+        </div>
+		
+		<div>
+			<a href="/CRMSystem/consultation/main" class="back-btn">
+			    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+			        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			    </svg>
+			    뒤로 가기
+			</a>
+		</div>
+
+        <p class="footer-note">
+            문의사항은 고객센터 1588-XXXX 문의해주세요<br>
+            신청내역은 마이페이지 > 상담 내역에서 확인 가능합니다.
+        </p>
+    </div>
+</div><!--container-->
+
+</body>
+
+</html>

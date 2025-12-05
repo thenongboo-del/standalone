@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>고객 상담 히스토리</title>
+    <link th:href="@{/css/carList.css}" rel="stylesheet">
+    <link th:href="@{/css/consultList.css}" rel="stylesheet">
+    <script src="/CRMSystem/js/consultList.js"></script>
+</head>
+<body class="dark-theme">
+<div class="container">
+
+<th:block th:replace="~{/module/top.html}"></th:block>
+
+<div class="history-container">
+    <h1 class="page-title">고객 상담 히스토리</h1>
+
+    <!-- 1. 상담 요청 (대기) -->
+    <div class="status-section" data-status="request">
+        <div class="status-header">
+            <img th:src="@{/icons/1st.png}" alt="상담요청" class="status-icon">
+            <h2>상담 요청</h2>
+            <span class="status-badge pending">대기중 [[${requestList.size()}]] 건</span>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" th:each="request : ${requestList}">
+                <div class="timeline-content">
+					<span class="result-tag drive"   th:if="${request.type.name() == 'DRIVE'}">시승신청</span>
+                    <p class="message" th:text="${request.requestMessage}">고객이 남긴 메시지</p>
+                    <span class="date" th:text="${#temporals.format(request.requestedAt, 'yyyy.MM.dd HH:mm')}">2025.04.01 14:30</span>
+                </div>
+            </div>
+            <div class="empty-message" th:if="${requestList == null or #lists.isEmpty(requestList)}">
+                아직 상담 요청이 없습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 일정 확정됨 -->
+    <div class="status-section" data-status="scheduled">
+        <div class="status-header">
+            <img th:src="@{/icons/3th.png}" alt="일정확정" class="status-icon">
+            <h2>일정 조정 중</h2>
+            <span class="status-badge scheduled">일정 조정 중 [[${scheduleList.size()}]] 건</span>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" th:each="schedule : ${scheduleList}">
+                <div class="timeline-content">
+                    <p class="message" th:text="${schedule.requestMessage}">고객 메시지</p>
+                    <div class="details">
+                        <span>요청: <time th:text="${#temporals.format(schedule.requestedAt, 'MM.dd HH:mm')}"></time></span>
+                        <span>확정 일정: <strong th:text="${#temporals.format(schedule.assignedAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="empty-message" th:if="${scheduleList == null or #lists.isEmpty(scheduleList)}">
+                확정된 일정이 없습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 상담 진행 중 -->
+    <div class="status-section" data-status="inprogress">
+        <div class="status-header">
+            <img th:src="@{/icons/4th.png}" alt="진행중" class="status-icon">
+            <h2>상담 진행 중</h2>
+            <span class="status-badge inprogress">진행 중 [[${inProgressList.size()}]] 건</span>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" th:each="inProgress : ${inProgressList}">
+                <div class="timeline-content">
+                    <p class="message" th:text="${inProgress.requestMessage}">고객 메시지</p>
+                    <div class="details">
+                        <span>시작: <time th:text="${#temporals.format(inProgress.assignedAt, 'MM.dd HH:mm')}"></time></span>
+                        <span>다음 일정: <strong th:text="${inProgress.nextSchedule != null ? #temporals.format(inProgress.nextSchedule, 'yyyy.MM.dd HH:mm') : '미정'}"></strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="empty-message" th:if="${inProgressList == null or #lists.isEmpty(inProgressList)}">
+                현재 진행 중인 상담이 없습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 상담 종료 -->
+	<!-- 상담 종료 섹션만 이걸로 통째로 교체 -->
+	<div class="status-section" data-status="ended">
+	    <div class="status-header">
+	        <img th:src="@{/icons/5th.png}" alt="종료" class="status-icon">
+	        <h2>상담 종료</h2>
+	        <span class="status-badge closed">종료 됨 [[${endList.size()}]] 건</span>
+	    </div>
+	    <div class="timeline">
+	        <div class="timeline-item" th:each="end : ${endList}" th:if="${end != null}">
+	            <div class="timeline-content">
+	                <p class="message" th:text="${end.requestMessage}">메시지</p>
+	                <div class="details">
+	                    <span th:text="'요청: ' + ${#temporals.format(end.requestedAt, 'MM.dd HH:mm')}"></span>
+	                    <span th:text="'종료: ' + ${#temporals.format(end.endDate, 'yyyy.MM.dd HH:mm')}"></span>
+	                    <span class="result-tag buy"   th:if="${end.endResult.name() == 'BUY'}">구매로 이어진 상담</span>
+	                    <span class="result-tag normal" th:if="${end.endResult.name() != 'BUY'}">일반 종료</span>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="empty-message" th:if="${endList == null or #lists.isEmpty(endList)}">
+	            종료된 상담이 없습니다.
+	        </div>
+	    </div>
+	</div>
+	
+	
+</div>
+</div>
+</body>
+</html>

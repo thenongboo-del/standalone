@@ -1,82 +1,65 @@
-<html>
-	
-<head>
-	<title>구매상담 신청</title>
-		
-</head>
-
-<body>
-<div class="container">
-	
-	<div class="formBox">
-		<div class="innerFormBox">
-			<div>
-				<span>신청인 ID : </span>[[${#authentication.getPrincipal().getUsername()}]]
-			</div>
-			<form th:object="${consultation}" th:action="@{/consultation/buy/from}" method="post">
-				<input type="hidden" name="type" th:value="buy" th:field="*{type}">
-				<div>
-					<p>상담 신청 메세지</p>
-					<textarea name="requestMessage" th:field="*{requestMessage}"></textarea>
-				</div>
-				<div>
-					<button>신청</button>
-				</div>
-			</form>
-		</div><!--innerFormBox-->
-	</div><!--formBox-->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-</div>	
-</body>
-</html>
-
-
-
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>구매상담</title>
-    <link th:href="@{/css/consultation-customer.css}" rel="stylesheet">
+    <title>구매상담 신청</title>
+    <link th:href="@{/css/buyForm.css}" rel="stylesheet">
+	<link th:href="@{/css/bottom.css}" rel="stylesheet">
 </head>
 <body>
 
 <th:block th:replace="~{/module/top.html}"></th:block>
 
 <div class="container">
+    <div class="page-header">
+		<br>
+        <h1 class="page-title">구매상담 신청</h1>
+        <p class="page-subtitle">원하시는 차종, 옵션, 예산 등을 자유롭게 작성해 주세요.<br>담당 딜러가 빠르게 연락드리겠습니다.</p>
+    </div>
+
     <div class="containerBox">
+        <div class="formBox">
+            <div class="innerFormBox">
 
-		<div class="formBox">
-			<div class="innerFormBox">
-				<div>
-					<span>신청인 ID : </span>[[${#authentication.getPrincipal().getUsername()}]]
+                <!-- 신청인 정보 -->
+                <div class="user-info">
+                    <span class="label">신청인 ID</span>
+                    <span class="value" th:text="${#authentication?.principal?.username} ?: '비회원'">user123</span>
+                </div>
+
+                <!-- 폼 -->
+				<div th:if="${successMessage}" class="alert-success">
+				    <p th:text="${successMessage}"></p>
 				</div>
-				<form th:object="${consultation}" th:action="@{/consultation/buy/from}" method="post">
-					<input type="hidden" name="type" th:value="buy" th:field="*{type}">
-					<div>
-						<p>상담 신청 메세지</p>
-						<textarea name="requestMessage" th:field="*{requestMessage}"></textarea>
-					</div>
-					<div>
-						<button>신청</button>
-					</div>
-				</form>
-			</div><!--innerFormBox-->
-		</div><!--formBox-->
+                <form th:object="${consultation}" th:action="@{/consultation/buy/form}" method="post" class="consult-form">
+                    <input type="hidden" th:field="*{customerId}" th:value="${#authentication?.principal?.username}">
 
+                    <div class="form-group">
+                        <label for="requestMessage">상담 신청 메시지</label>
+                        <textarea 
+                            id="requestMessage"
+                            th:field="*{requestMessage}"
+                            placeholder="예시)&#10;안녕하세요. 그랜저 3.5 AWD 캘리그래피 블랙 관심 있습니다.&#10;현재 재고 상황과 출고 가능 일정, 금융 프로모션 알려주시면 감사하겠습니다.&#10;연락 가능한 시간: 평일 오후 2시 ~ 6시"
+                            rows="10"
+                            required></textarea>
+                    </div>
+
+                    <div class="button-area">
+                        <button type="submit" class="submit-btn">
+                            구매상담 신청하기
+                        </button>
+                        <button type="button" class="cancel-btn" onclick="history.back()">
+                            취소
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>
 
-<script th:src="@{/js/consultation-customer.js}"></script>
+
 </body>
+<th:block th:replace="~{/module/bottom.html}"></th:block>
 </html>

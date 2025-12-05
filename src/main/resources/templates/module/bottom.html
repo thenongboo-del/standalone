@@ -1,3 +1,69 @@
-<footer class="col-md-12 pt-3 mt-4 text-body-secondary border-top">
-	<img th:src="|/CarSale/images/bottom.png|" width="100%">
+<!-- ===== Dealer Footer (place right before </body>) ===== -->
+<footer class="site-footer" role="contentinfo" aria-label="사이트 정보">
+  <div class="footer-wrap">
+    <div class="f-col f-brand">
+      <a th:href="@{/}" class="footer-logo" aria-label="홈으로 이동">
+        <!-- SVG 로고: 필요하면 파일로 교체하세요 -->
+        <svg width="42" height="42" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="#000"></rect>
+          <path d="M4 15 L9 8 L14 15" stroke="#ffeeea" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">StandAlone Cars</span>
+      </a>
+      <p class="brand-desc">현대·기아 딜러용 CRM <br> 상담 · 스케줄 · 재고 관리를 한 번에.</p>
+
+      <div class="contact">
+        <div><strong>문의</strong> <a th:href="@{mailto:support@dealercrm.local}">support@dealercrm.local</a></div>
+        <div><strong>대표</strong> 02-1234-5678</div>
+      </div>
+    </div>
+
+    <nav class="f-col f-links" aria-label="빠른 링크">
+      <div class="links-group">
+        <h4>서비스</h4>
+        <ul>
+          <li><a th:href="@{/cars}">모델보기</a></li>
+          <li><a th:href="@{/consultation/main}">구매상담</a></li>
+          <li><a th:href="@{/recommand/form}">AI 차량 추천</a></li>
+        </ul>
+      </div>
+      <!--<div class="links-group">
+        <h4>관리</h4>
+        <ul>
+          <li><a th:href="@{/dealer/main}">딜러 대시보드</a></li>
+          <li><a th:href="@{/stock}">재고관리</a></li>
+          <li><a th:href="@{/schedule}">일정관리</a></li>
+        </ul>
+      </div>-->
+      <div class="links-group">
+        <h4>정책</h4>
+        <ul>
+          <li><a href="#">개인정보처리방침</a></li>
+          <li><a href="#">이용약관</a></li>
+          <li><a href="@{/support/main}">고객센터</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="f-col f-stats" aria-hidden="false">
+
+      <div class="socials" role="list" aria-label="소셜 링크">
+        <a href="#" role="listitem" aria-label="인스타그램"><img th:src="@{/icons/instagram.png}" style="width: 30px;"></a>
+        <a href="#" role="listitem" aria-label="페이스북"><img th:src="@{/icons/kakao.png}" style="width: 25px;"></a>
+      </div>
+
+      <a href="#"> <button id="footerBackTop" class="back-top" aria-label="위로 이동">↑ TOP</button> </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="copyright">
+      <span>&copy; <span id="footerYear"></span> StandAlone Cars</span>
+      <span class="dot">•</span>
+      <a href="#">고객센터</a>
+      <span class="dot">•</span>
+      <a href="#">개인정보처리방침</a>
+    </div>
+  </div>
 </footer>
+<!-- ===== end footer ===== -->

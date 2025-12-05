@@ -1,0 +1,193 @@
+html, body {
+    margin: 0;
+    padding: 0;
+	background-color:#111;
+}
+
+
+
+
+/* 구매상담 신청 폼 전용 스타일 */
+
+/* 페이지 헤더 */
+.page-header {
+    text-align: center;
+    margin: 60px 0 70px;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #aaaaaa;
+    line-height: 1.6;
+}
+
+/* 폼 박스 */
+.formBox {
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.innerFormBox {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 50px 60px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    transition: all 0.4s ease;
+	margin-bottom: 100px;
+}
+
+.formBox:hover .innerFormBox {
+    border-color: #FF5500;
+    box-shadow: 0 20px 50px rgba(255, 85, 0, 0.15);
+}
+
+/* 신청인 정보 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: #fff;
+    border-bottom: 1px solid #333;
+}
+
+.user-info .label {
+    color: #888;
+    font-weight: 500;
+}
+.user-info .value {
+    color: #FF5500;
+    font-weight: 700;
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #fff;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 20px;
+    background: #111;
+    border: 1px solid #444;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 220px;
+    transition: all 0.3s;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #FF5500;
+    box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.2);
+}
+
+.form-group textarea::placeholder {
+    color: #666;
+    line-height: 1.7;
+}
+
+/* 버튼 영역 */
+.button-area {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.submit-btn, .cancel-btn {
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 200px;
+}
+
+.submit-btn {
+    background: #FF5500;
+    color: white;
+    border: none;
+    box-shadow: 0 8px 20px rgba(255, 85, 0, 0.3);
+}
+
+.submit-btn:hover {
+    background: #e64a00;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(255, 85, 0, 0.4);
+}
+
+.cancel-btn {
+    background: #333;
+    color: #aaa;
+    border: 1px solid #555;
+}
+
+.cancel-btn:hover {
+    background: #444;
+    color: #fff;
+    border-color: #666;
+}
+
+/* 애니메이션 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .innerFormBox {
+        padding: 40px 30px;
+    }
+    .button-area {
+        flex-direction: column;
+    }
+    .submit-btn, .cancel-btn {
+        width: 100%;
+    }
+}
+
+
+
+/*상담 신청 완료 폼*/
+
+.alert-success {
+    background: rgba(255,85,0,0.15);
+    border: 1px solid #FF5500;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}

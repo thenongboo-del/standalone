@@ -3,8 +3,14 @@ package com.sbproject.standalone.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +22,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sbproject.standalone.entity.Consultation;
+import com.sbproject.standalone.entity.ConsultationStatus;
+import com.sbproject.standalone.entity.ConsultationType;
 import com.sbproject.standalone.entity.Member;
+import com.sbproject.standalone.service.ConsultationService;
 import com.sbproject.standalone.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -32,6 +42,8 @@ public class MemberController {
 	private final MemberService memberService;
 	
 	private final PasswordEncoder passwordEncoder;
+	
+	private final ConsultationService consultService;
 	
 	// [1] 일반 사용자
 	// 회원가입 폼
@@ -85,8 +97,16 @@ public class MemberController {
 	// 회원정보 조회 (1건) -> 수정과 삭제 화면
 	@GetMapping("/update/{memberId}")
 	public String updateMemberForm(@PathVariable("memberId") String memberId, Model model) {
+		List<Consultation> consultList = consultService.findByMemberId(memberId);
+		List<Consultation> consultBuyEndLIst = consultService.selectBystatusAndType(ConsultationStatus.END, ConsultationType.BUY);
+		List<Consultation> consultDriveEndLIst = consultService.selectBystatusAndType(ConsultationStatus.END, ConsultationType.DRIVE);
+		
+		// 진행중인 상담 건수 ( 모든 상담 건수 - (종료된 구매상담 + 종료된 시승신청)
+		Long consultCount = (long) ((consultBuyEndLIst.size() + consultDriveEndLIst.size()) - consultList.size());
+		
 		Member member = memberService.findByMemberId(memberId);
 		member.setAges();
+		model.addAttribute("consultCount", consultCount);
 		model.addAttribute("member", member);
 		
 		return "member/updateMember";
@@ -130,6 +150,38 @@ public class MemberController {
 		
 		return "redirect:/logout";
 	}
+	
+	@GetMapping("/consultation/list")
+	public String requestConsultationList(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		
+		List<Consultation> allList = consultService.findByMemberId(userDetails.getUsername());
+
+		//		대기중인 리스트
+		List<Consultation> requestList = Optional.ofNullable(allList).orElseGet(Collections::emptyList).stream()
+			    .filter(c -> c != null && c.getStatus() == ConsultationStatus.WAIT).collect(Collectors.toList());
+		
+		List<Consultation> scheduleList = Optional.ofNullable(allList).orElseGet(Collections::emptyList).stream()
+				.filter(c -> c != null && c.getStatus() == ConsultationStatus.SCHEDULE).collect(Collectors.toList());
+		
+		List<Consultation> inProgressList = Optional.ofNullable(allList).orElseGet(Collections::emptyList).stream()
+				.filter(c -> c != null && c.getStatus() == ConsultationStatus.IN_PROGRESS).collect(Collectors.toList());
+		
+		List<Consultation> endList = Optional.ofNullable(allList).orElseGet(Collections::emptyList).stream()
+				.filter(c -> c != null && c.getStatus() == ConsultationStatus.END).collect(Collectors.toList());
+
+		
+		
+		model.addAttribute("allList", allList);
+		model.addAttribute("requestList", requestList);
+		model.addAttribute("scheduleList", scheduleList);
+		model.addAttribute("inProgressList", inProgressList);
+		model.addAttribute("endList", endList);
+		
+		return "member/consultList";
+	}
+	
+	
+	
 	
 	// #################################################################################
 	
