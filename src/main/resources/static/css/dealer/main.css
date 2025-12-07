@@ -68,6 +68,7 @@ body {
     gap: 20px;
 /*    flex-wrap: wrap;*/
     flex-wrap: nowrap;
+	justify-content: center;
 }
 
 .card {
@@ -109,11 +110,16 @@ body {
 .signup-form input[type="password"],
 .signup-form input[type="email"],
 .signup-form input[type="date"] {
-    width: 50%;
+    width: 15%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+	margin-bottom: 20px;
+}
+
+.id-info{
+	margin-top: -20px;
 }
 
 .signup-form input[type="radio"] {
@@ -142,6 +148,11 @@ body {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 40px;
+}
+
+.col-sm-3 > span{
+	text-align: center;
+	margin: auto 20px;
 }
 
 
@@ -302,6 +313,7 @@ body {
 .cust-phone {
   font-weight:600;
   color: #333;
+  margin-right: 25px;
 }
 
 .caret {
@@ -1042,4 +1054,14 @@ textarea {
 	width: 100px;
 	height: 30px;
 }
+
+
+/*상담 탭 초기 조절*/
+.chat-panel {
+    display: none;
+}
+.chat-panel.active {
+    display: block;
+}
+
 

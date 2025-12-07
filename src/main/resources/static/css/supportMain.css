@@ -11,9 +11,10 @@ html, body {
 	padding: 0;
 	margin-left: 250px;
 	margin-top: 100px;
-	background: url(/CRMSystem/images/maincar.jpg);
+	background: url(/CRMSystem/images/maincar.jpg) no-repeat;
 	min-height: 89vh;
-	background-position: -230px 0px;
+	background-position: 0px 0px;
+	background-size: cover;
 }
 
 
@@ -27,11 +28,8 @@ h1 {
 	color:white;
 }
 
-.asideAndContent {
-}
-
-.content {
-	
+.containerBox{
+	margin-top: 1100px;
 }
 
 

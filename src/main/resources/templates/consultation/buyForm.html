@@ -48,9 +48,12 @@
                         <button type="submit" class="submit-btn">
                             구매상담 신청하기
                         </button>
-                        <button type="button" class="cancel-btn" onclick="history.back()">
+<!--                        <button type="button" class="cancel-btn" onclick="history.back()">-->
+                        <a th:href="@{/consultation/main}">
+							<button type="button" class="cancel-btn">
                             취소
-                        </button>
+                        	</button>
+						</a>
                     </div>
                 </form>
 

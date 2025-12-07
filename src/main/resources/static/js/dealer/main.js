@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	        }, 600);
 
 	        alert("상담이 완료 처리되었습니다.");
+			location.reload();
 	    })
 	    .catch(err => {
 	        console.error("완료 처리 실패:", err);
@@ -59,48 +60,80 @@ document.addEventListener("DOMContentLoaded", function () {
 	    });
 	};
 
-    // ===================================================================
-    // 사이드바 탭 전환
-    // ===================================================================
-    const tabs = document.querySelectorAll(".sidebar ul a");
-    const contents = document.querySelectorAll(".tab-content");
+	// ===================================================================
+	// 사이드바 탭 전환 (수정 완료 버전)
+	// ===================================================================
+	const tabs = document.querySelectorAll(".sidebar ul a");
+	const contents = document.querySelectorAll(".tab-content");
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", function (e) {
-            e.preventDefault();
-            tabs.forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
+	tabs.forEach(tab => {
+	    tab.addEventListener("click", function (e) {
+	        e.preventDefault();
 
-            const target = this.dataset.tab;
-            contents.forEach(c => c.classList.remove("active"));
-            document.getElementById(target)?.classList.add("active");
-			
-			
-			// 탭 클릭 처리 후(이미 당신 코드에서 탭 활성화하는 부분 끝에) 다음을 호출:
-			function renderPendingCanvases() {
-			    document.querySelectorAll('canvas#stockChart').forEach(canvas => {
-			        if (canvas._needsRender) {
-			            // 보일 때만 렌더
-			            if (canvas.offsetParent) {
-			                const { labels, values } = canvas._needsRender;
-			                if (canvas.chartInstance) canvas.chartInstance.destroy();
-			                canvas.chartInstance = new Chart(canvas, {
-			                    type: 'bar',
-			                    data: { labels, datasets: [{ label: '재고수', data: values, backgroundColor: '#FF5500', borderRadius: 6, barThickness: 24 }] },
-			                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-			                });
-			                delete canvas._needsRender;
-			            }
-			        }
-			    });
-			}
+	        // 1. 사이드바 active 처리
+	        tabs.forEach(t => t.classList.remove("active"));
+	        this.classList.add("active");
 
-			// 기존 탭 클릭 이벤트 안 (contents.forEach... 에서 active 추가한 직후) 호출
-			// 예시: document.getElementById(target)?.classList.add("active"); 바로 다음 줄에:
-			renderPendingCanvases();
+	        // 2. 메인 탭 내용 전환
+	        const target = this.dataset.tab;
+	        contents.forEach(c => c.classList.remove("active"));
+	        document.getElementById(target)?.classList.add("active");
 
-        });
-    });
+	        // 3. 상담 탭(chat)을 처음 열었을 때 → 무조건 "대기중"만 보이게 강제 초기화
+	        if (target === "chat") {
+	            // 서브 탭 버튼들 초기화
+	            document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
+	            document.querySelectorAll('.chat-panel').forEach(p => {
+	                p.classList.remove('active');
+	                p.style.display = 'none';
+	                p.setAttribute('aria-hidden', 'true');
+	            });
+
+	            // 대기중 탭만 활성화
+	            const waitingTab = document.querySelector('.chat-tab[data-target="tab-waiting"]');
+	            const waitingPanel = document.getElementById('tab-waiting');
+
+	            if (waitingTab) waitingTab.classList.add('active');
+	            if (waitingPanel) {
+	                waitingPanel.classList.add('active');
+	                waitingPanel.style.display = 'block';
+	                waitingPanel.setAttribute('aria-hidden', 'false');
+	            }
+	        }
+
+	        // 4. 재고 차트 렌더링 (기존 로직 그대로 유지)
+	        function renderPendingCanvases() {
+	            document.querySelectorAll('canvas#stockChart').forEach(canvas => {
+	                if (canvas._needsRender && canvas.offsetParent) {
+	                    const { labels, values } = canvas._needsRender;
+	                    if (canvas.chartInstance) canvas.chartInstance.destroy();
+
+	                    canvas.chartInstance = new Chart(canvas, {
+	                        type: 'bar',
+	                        data: {
+	                            labels,
+	                            datasets: [{
+	                                label: '재고수',
+	                                data: values,
+	                                backgroundColor: '#FF5500',
+	                                borderRadius: 6,
+	                                barThickness: 24
+	                            }]
+	                        },
+	                        options: {
+	                            responsive: true,
+	                            plugins: { legend: { display: false } },
+	                            scales: { y: { beginAtZero: true } }
+	                        }
+	                    });
+	                    delete canvas._needsRender;
+	                }
+	            });
+	        }
+
+	        renderPendingCanvases();
+	    });
+	});
 
     // ===================================================================
     // 상담 서브 탭 (대기중 / 일정조정중 / 진행중 / 종료)

@@ -83,6 +83,8 @@ public class DealerController {
 	}
 	
 	
+	
+	// 신규 딜러
 	@PostMapping("/addDealer")
 	public String requestAddDealerView(@Valid @ModelAttribute Member member, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 		// 유효성 검사
@@ -115,11 +117,8 @@ public class DealerController {
 			return "dealer/main";
 		}
 		
-		// 가입 메세지
-		redirectAttributes.addFlashAttribute("flashMessage", 
-			    "싱규사원 정보 입력이 정상적으로 완료되었습니다. 환영합니다, " + member.getName() + "님!");
 		
-		return "dealer/main";
+		return requestDealerMain(model);
 	}
 	
 	

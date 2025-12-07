@@ -136,26 +136,28 @@
 
 		<!-- 상담 -->
 		<!-- 상담 탭 -->
+<!--		<section id="chat" class="tab-content">-->
 		<section id="chat" class="tab-content">
 		  <!-- 헤더 요약 -->
 		  <div class="chat-header">
 		    <h2>상담 접수 목록</h2>
 		    <div class="chat-summary">
-		      <span class="badge badge-pending">대기 <strong th:text="${consultWaitList.size()}">12</strong>건</span>
+		      <span class="badge badge-pending">대기 <strong th:text="${consultWaitList != null ? consultWaitList.size() : 0}">12</strong>건</span>
 		      <!--<span class="badge badge-today">오늘 접수 <strong th:text="${todayCount}">5</strong>건</span>-->
 		    </div>
 		  </div>
 
 		  <!-- 서브 탭 (상담 상태별) -->
 		  <div class="chat-tabs" role="tablist" aria-label="상담 상태">
-		    <button type="button" class="chat-tab active" data-target="tab-waiting" role="tab">대기중</button>
-		    <button type="button" class="chat-tab" data-target="tab-scheduling" role="tab">일정 조정중</button>
-		    <button type="button" class="chat-tab" data-target="tab-inprogress" role="tab">진행중</button>
-		    <button type="button" class="chat-tab" data-target="tab-finished" role="tab">종료</button>
+			<!-- 상담 서브 탭 버튼 중 대기중에만 active 클래스 추가 -->
+			<button type="button" class="chat-tab active" data-target="tab-waiting" role="tab">대기중</button>
+			<button type="button" class="chat-tab" data-target="tab-scheduling" role="tab">일정 조정중</button>
+			<button type="button" class="chat-tab" data-target="tab-inprogress" role="tab">진행중</button>
+			<button type="button" class="chat-tab" data-target="tab-finished" role="tab">종료</button>
 		  </div>
 
 		  <!-- 탭 패널: 대기중 -->
-		  <div id="tab-waiting" class="chat-panel active" role="tabpanel">
+		  <div id="tab-waiting" class="chat-panel active" role="tabpanel" style="display: block;">
 		    <div class="consult-list">
 		      <div class="consult-card" th:attr="data-id=${consult.id}" th:each="consult : ${consultWaitList}">
 		        <!-- 상단 정보 -->
@@ -190,7 +192,7 @@
 		  </div>
 
 		  <!-- 탭 패널: 일정 조정중 -->
-		  <div id="tab-scheduling" class="chat-panel" role="tabpanel" aria-hidden="true">
+		  <div id="tab-scheduling" class="chat-panel" role="tabpanel" style="display: none;" aria-hidden="true">
 		    <div class="consult-list">
 		      <div class="consult-card"  th:attr="data-id=${consult.id}" th:each="consult : ${consultScheduleList}">
 		        <div class="consult-top">
@@ -238,7 +240,7 @@
 		  </div>
 
 		  <!-- 탭 패널: 진행중 -->
-		  <div id="tab-inprogress" class="chat-panel" role="tabpanel" aria-hidden="true">
+		  <div id="tab-inprogress" class="chat-panel" style="display: none;" role="tabpanel" aria-hidden="true">
 		    <div class="consult-list">
 		      <div class="consult-card" th:each="consult : ${consultInProgressList}" th:attr="data-id=${consult.id}">
 		        <!-- 상단 정보 -->
@@ -295,7 +297,7 @@
 
 		  <!-- 탭 패널: 종료 -->
 		  <!-- 탭 패널: 종료 -->
-		  <div id="tab-finished" class="chat-panel" role="tabpanel" aria-hidden="true">
+		  <div id="tab-finished" class="chat-panel" role="tabpanel" style="display: none;" aria-hidden="true">
 		    <!-- 검색바 추가 (고객 리스트처럼) -->
 		    <div class="chat-search">
 		      <input id="finishedSearch" type="search" placeholder="고객ID / 상담 메시지 / 상담 내용으로 검색..." />
@@ -412,9 +414,9 @@
 								<strong>이메일:</strong> 
 								<span th:text="${customer.email}">email</span>
 							</div> 
-							<div class="detail-row"><strong>롤:</strong> 
+							<!--<div class="detail-row"><strong>롤:</strong> 
 								<span th:text="${customer.role}">email</span>
-							</div> 
+							</div> -->
 						</div> 
 					</div> <!-- 반복 끝 --> 
 				</div> 
@@ -497,7 +499,7 @@
         <section id="addDealer" class="tab-content">
             <h2>신규사원추가</h2>
             <div class="container">
-                <div class="content">
+                <div class="content addNewMember">
 					<form th:object="${member}" th:action="@{/dealer/addDealer}" method="post" class="signup-form">
 
 						<div class="div-labelAndAlert">

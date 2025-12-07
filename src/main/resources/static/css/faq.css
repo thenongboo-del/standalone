@@ -1,4 +1,26 @@
-/* FAQ 박스 리스트 */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* .container 또는 main.content가 화면을 채우게 */
+.container, main.content {
+  flex: 1 0 auto;
+}
+
+.container {
+  flex: 1 0 auto;           /* 위로 쭉 늘어남 */
+  display: flex;
+  flex-direction: column;
+}
+
+
 .faqList {
   width: 100%;
   max-width: 900px;
@@ -64,3 +86,75 @@
   color: #ddd;
   line-height: 1.6;
 }
+
+
+/* FAQ 전체 중앙 래핑 */
+.faq-area {
+  width: 100%;
+  max-width: 920px;        /* 콘텐츠 너비 조절 */
+  margin: 0 auto;          /* 가운데 정렬 */
+  padding: 12px 18px;
+  box-sizing: border-box;
+}
+
+/* controls (검색 + 페이저) 기본 스타일 — JS가 생성한 요소에 적용됨 */
+.faq-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* 검색박스 기본 스타일 (JS가 만든 .faq-search-input에 적용) */
+.faq-search-input {
+  flex: 1 1 58%;
+  min-width: 180px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  font-size: 0.98rem;
+  box-sizing: border-box;
+}
+
+/* 페이저 컨테이너 위치 조정 */
+.faq-pager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+/* 페이저 버튼(간단) */
+.faq-pager button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.faq-pager button[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* 모바일 대응: 컨트롤을 세로로 쌓음 */
+@media (max-width: 640px) {
+  .faq-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .faq-search-input {
+    width: 100%;
+    flex: none;
+  }
+  .faq-pager {
+    justify-content: center;
+    margin-top: 8px;
+  }
+}
+
+

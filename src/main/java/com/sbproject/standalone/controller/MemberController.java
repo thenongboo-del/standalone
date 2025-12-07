@@ -3,6 +3,7 @@ package com.sbproject.standalone.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sbproject.standalone.entity.Consultation;
 import com.sbproject.standalone.entity.ConsultationStatus;
-import com.sbproject.standalone.entity.ConsultationType;
 import com.sbproject.standalone.entity.Member;
 import com.sbproject.standalone.service.ConsultationService;
 import com.sbproject.standalone.service.MemberService;
@@ -97,12 +97,16 @@ public class MemberController {
 	// 회원정보 조회 (1건) -> 수정과 삭제 화면
 	@GetMapping("/update/{memberId}")
 	public String updateMemberForm(@PathVariable("memberId") String memberId, Model model) {
-		List<Consultation> consultList = consultService.findByMemberId(memberId);
-		List<Consultation> consultBuyEndLIst = consultService.selectBystatusAndType(ConsultationStatus.END, ConsultationType.BUY);
-		List<Consultation> consultDriveEndLIst = consultService.selectBystatusAndType(ConsultationStatus.END, ConsultationType.DRIVE);
+		List<Consultation> consultAllList = consultService.findByMemberId(memberId);
+		List<Consultation> consultEndList = new ArrayList<Consultation>();
+		consultAllList.forEach(i -> {
+			if(i.getStatus() == ConsultationStatus.END) {
+				consultEndList.add(i);
+			}
+		});
 		
 		// 진행중인 상담 건수 ( 모든 상담 건수 - (종료된 구매상담 + 종료된 시승신청)
-		Long consultCount = (long) ((consultBuyEndLIst.size() + consultDriveEndLIst.size()) - consultList.size());
+		Long consultCount = (long) (consultAllList.size() - consultEndList.size());
 		
 		Member member = memberService.findByMemberId(memberId);
 		member.setAges();
