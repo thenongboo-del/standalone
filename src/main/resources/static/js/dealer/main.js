@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	            }
 	        }
 
-	        // 4. 재고 차트 렌더링 (기존 로직 그대로 유지)
+	        // 4. 재고 차트 렌더링 
 	        function renderPendingCanvases() {
 	            document.querySelectorAll('canvas#stockChart').forEach(canvas => {
 	                if (canvas._needsRender && canvas.offsetParent) {

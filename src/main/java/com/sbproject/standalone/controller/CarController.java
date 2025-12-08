@@ -38,20 +38,11 @@ public class CarController {
 	private final CarService carService;
 	
 	// 페이징 설정
-	private int pageSize = 10;	// 페이지당 상품 갯수(5개씩 2줄)
+	private int pageSize = 8;	// 페이지당 상품 갯수(5개씩 2줄)
 	private int pageBlock = 5;	// 페이징되어 나타나는 숫자 링크들의 갯수
 	
 	// [1] 일반 사용자 기능	
-	
-	// 도서 전체 목록 1 -> 페이징 처리가 되지 않음
-//	@GetMapping
-//	public String requestCarList(Model model) {
-//		List<Car> carList = this.carService.getCarList();
-//		model.addAttribute("carList", carList);
-//		return "car/cars";
-//	}
-	
-	
+
 	// 전체 목록 조회 -> 페이징 처리된 메서드로 이동
 	@GetMapping
 	public String requestCarList(Model model) {
@@ -88,8 +79,8 @@ public class CarController {
 	
 	// 상품 전체 목록 : paging 처리
 	// 1. 전체 목록 + 페이징
-	// 2. 브랜드별 차량명 차종별 도서 조회 + 페이징
-	// 3. 검색을 통한 조회 + 페이징 : 제목, 내용, 저자, 출판사별로 검색
+	// 2. 브랜드별 차량명 차종별 조회 + 페이징
+	// 3. 검색을 통한 조회 + 페이징
 	@GetMapping("/paging")
 	public String requestCarPagingList(
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
@@ -97,10 +88,10 @@ public class CarController {
 			@RequestParam(name = "keyword") String keyword,
 			Model model
 			) {
-		// 출판일을 기준으로 최근 순으로 정렬
+		// 아이디를 기준으로 내림차순 순으로 정렬
 		Page<Car> paging = carService.getCarPagingList(pageNum, state, keyword, pageSize, "id", "desc");
 		
-		// 페이징 처리된 도서 목록 획득
+		// 페이징 처리된 차 목록 획득
 		
 		List<Car> carList = paging.getContent();
 		
@@ -109,7 +100,7 @@ public class CarController {
 		int endPage = startPage + pageBlock - 1;
 		
 		// 페이징 정보를 모델에 저장
-		model.addAttribute("carList", carList);					// 도서 목록
+		model.addAttribute("carList", carList);						// 차량 목록
 		model.addAttribute("pageNum", pageNum);						// 현제 페이지 번호
 		model.addAttribute("pageBlock", pageBlock);					// 노출 될 페이지 블럭 수 - 5
 		model.addAttribute("totalItems", paging.getTotalElements());// 전체 게시물 수
@@ -120,10 +111,6 @@ public class CarController {
 		model.addAttribute("keyword", keyword);						// state에서 사용 할 값
 		
 		
-		// 메인의 하단 슬라이더 - 추천상품 (건강 요리 사랑 제목 또는 내용에서 조회해서 5건 씩)
-//		List<Car> sliderList2 = this.carService.getCarListSlider("main2");
-//		model.addAttribute("sliderList2", sliderList2);
-//		sliderList2.forEach(c -> log.info(c.toString()));
 		
 		return "car/carList";
 	}

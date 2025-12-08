@@ -19,7 +19,7 @@ public class ChatController {
 
     @GetMapping("/chat")
     public String chatForm() {
-        return "chat"; // templates/chat.html
+        return "chat"; // 
     }
 
     @PostMapping("/chat")
@@ -35,6 +35,6 @@ public class ChatController {
         model.addAttribute("answer", resp != null ? resp.getReply() : "응답 없음");
         model.addAttribute("sessionId", resp != null ? resp.getSession_id() : null);
 
-        return "chat"; // same template; show the reply
+        return "chat"; // 
     }
 }

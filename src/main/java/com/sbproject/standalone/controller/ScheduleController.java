@@ -51,7 +51,7 @@ public class ScheduleController {
             Map<String, Object> ev = new HashMap<>();
             ev.put("id", String.valueOf(c.getId()));
 
-            // title: 고객ID + 타입(원하면 변경)
+            // title: 고객ID + 타입
             String title = (c.getCustomerId() != null ? c.getCustomerId() : "고객")
                     + (c.getType() != null ? " (" + c.getType().name() + ")" : "");
             ev.put("title", title);

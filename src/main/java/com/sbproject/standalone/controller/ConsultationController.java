@@ -111,7 +111,7 @@ public class ConsultationController {
 		return "redirect:/dealer/main";
 	}
 	
-	
+	// 상담내용 저장
 	@PostMapping("/dealer/insert/content")
 	public String insertConsultationDetail(@RequestParam("id") Long id, @RequestParam("content") String content) {
 		
